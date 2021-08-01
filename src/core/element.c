@@ -12,7 +12,12 @@ element_create ()
   el.rotation = (Vector3){ 0.0f, 0.0f, 0.0f };
   el.scale = (Vector3){ 1.0f, 1.0f, 1.0f };
 
+  el.children = vector_create ();
+
   el.selected = 0;
+
+  memset (el.name, 0, sizeof (el.name));
+  strncpy (el.name, "Element", sizeof (el.name));
 
   return el;
 }

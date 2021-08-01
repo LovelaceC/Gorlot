@@ -3,12 +3,10 @@
 static void
 tree_draw_element (struct nk_context **ctx, struct element *el)
 {
-  // TODO: Selectable
-  if (nk_tree_element_push (*ctx, NK_TREE_NODE, "Element", NK_MINIMIZED,
+  if (nk_tree_element_push (*ctx, NK_TREE_NODE, el->name, NK_MINIMIZED,
                             &el->selected))
     {
       // TODO: If element has children, draw them here :3
-
       nk_tree_element_pop (*ctx);
     }
 }
@@ -21,7 +19,7 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
                          OUTLINER_WIDTH, window_height - TOPBAR_HEIGHT),
                 NK_WINDOW_BORDER))
     {
-      nk_layout_row_static (*ctx, 300, OUTLINER_WIDTH - 22, 1);
+      nk_layout_row_static (*ctx, 250, OUTLINER_WIDTH - 22, 1);
 
       if (nk_group_begin (*ctx, "Outliner", NK_WINDOW_BORDER))
         {

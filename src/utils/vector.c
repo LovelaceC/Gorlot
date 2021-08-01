@@ -25,3 +25,13 @@ vector_add_child (struct vector *vector, void *element)
   vector->child[vector->children] = element;
   vector->children += 1;
 }
+
+void
+vector_free (struct vector *vector)
+{
+  // Freeing a vector contents is the programmer's responsibility
+  free (vector->child);
+  vector->child = NULL;
+
+  vector->children = 0;
+}

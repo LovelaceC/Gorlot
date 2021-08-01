@@ -18,6 +18,7 @@ struct vector
 
 struct vector vector_create ();
 void vector_add_child (struct vector *vector, void *element);
+void vector_free (struct vector *vector);
 
 // core/element.h
 struct element
@@ -31,7 +32,10 @@ struct element
   Vector3 scale;
   Vector3 rotation;
 
+  struct vector children;
+
   // Util info?
+  char name[32];
   int selected;
 };
 
@@ -59,5 +63,6 @@ struct scene
 struct scene scene_create ();
 void scene_add_element (struct scene *scene, struct element *element);
 void scene_update (struct scene *scene);
+void scene_free (struct scene *scene);
 
 #endif

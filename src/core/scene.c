@@ -24,3 +24,9 @@ scene_update (struct scene *scene)
       element_update (scene->elements.child[i]);
     }
 }
+
+void
+scene_free (struct scene *scene)
+{
+  vector_free (&scene->elements);
+}

@@ -7,38 +7,34 @@
 
 #include "config.h"
 
+#include "editor/editor.h"
 #include "editor/gui.h"
 
-struct scene scene;
+struct editor editor;
 
 int
 main ()
 {
   InitWindow (window_width, window_height, "Gorlot");
 
-  Camera3D camera = { 0 };
-  camera.position = (Vector3){ 10.0f, 10.0f, 10.0f };
-  camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
-  camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-  camera.fovy = 45.0f;
-  camera.projection = CAMERA_PERSPECTIVE;
+  editor = editor_create ();
+  editor.current_cam = &editor.editor_cam;
+  editor.current_scene = &editor.editor_scene;
 
-  SetCameraMode (camera, CAMERA_FREE);
+  SetCameraMode (editor.editor_cam, CAMERA_FREE);
 
   SetTargetFPS (60);
-
-  scene = scene_create ();
 
   struct nk_context *ctx = InitNuklear (10);
 
   while (!WindowShouldClose ())
     {
-      UpdateCamera (&camera);
+      UpdateCamera (editor.current_cam);
       UpdateNuklear (ctx);
 
       editorgui_draw (&ctx);
 
-      scene_update (&scene);
+      scene_update (editor.current_scene);
 
       BeginDrawing ();
       {
@@ -47,11 +43,11 @@ main ()
         BeginScissorMode (0, TOPBAR_HEIGHT, window_width - OUTLINER_WIDTH,
                           window_height);
 
-        BeginMode3D (camera);
+        BeginMode3D (*editor.current_cam);
         {
-          for (int i = 0; i < scene.elements.children; i++)
+          for (int i = 0; i < editor.current_scene->elements.children; i++)
             {
-              element_draw (scene.elements.child[i]);
+              element_draw (editor.current_scene->elements.child[i]);
             }
 
           DrawGrid (1000, 1.0f);

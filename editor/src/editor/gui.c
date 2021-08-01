@@ -3,11 +3,13 @@
 #include "gui/outliner.h"
 #include "gui/topbar.h"
 
-extern struct scene scene;
+#include "editor.h"
+
+extern struct editor editor;
 
 void
 editorgui_draw (struct nk_context **ctx)
 {
-  topbar_draw (ctx, &scene);
-  outliner_draw (ctx, &scene);
+  topbar_draw (ctx, editor.current_scene);
+  outliner_draw (ctx, editor.current_scene);
 }
