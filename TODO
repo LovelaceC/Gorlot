@@ -1,0 +1,41 @@
+- An editor struct containing the editor camera, the editor scene (for elements and tools), etcetera
+- Scene signals (on clean, on update, on draw, etcetera)
+- Free memory
+- Add primitive elements
+- Elements added to the scene appear near the camera field of view
+- Scale and rotate elements using their matrix
+- Lights support
+- Add tools (graphical, of course)
+- Add support for materials
+- Improve UI
+- Scene elements UI tree
+- Components (they can be added to elements)
+- Assets
+- Asset importing by dragging and dropping
+- Asset manager
+- Model loading
+- Animation loading
+- Animation blending
+- C text editor in gorlot (they can be appended to the project, by basically compiling the developer C files with the game)
+- Node editor based programming
+- Node editor based material editor
+- Project creation
+- Project saving (using JSON?)
+- Project loading
+- Project manager (like that one thing in Unity)
+- Multicamera support (change the BeginMode3D argument?)
+- Element name
+- Gorlot library abstraction (for files, sockets, threads, etcetera)
+- Stop using extern variables
+- Rename `editor/gui/' with `editor/ux' for the UX
+- Clip the editor's scene editor (so only the part that has no overlapping UI is shown)
+- When rotating and moving the camera in the editor capture the mouse
+- Stop using constants in `editor/gui' create constants for sizes and that stuff
+- Gui increases its size when resizing
+- Element children
+- Write the free camera mode myself
+- If the mouse is on a nuklear window, don't let the camera move
+- Isn't the GUI code so messy? Should I rewrite it?
+- Geometry editor
+
+- Sort this ToDo list (it is so deorganised)

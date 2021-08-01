@@ -1,0 +1,34 @@
+CC=gcc
+
+FLAGS=-I../inc -L../bin -Werror -std=gnu99 -g -O0
+LIBS=-lraylib -ldl -lm -lpthread -lgorlot
+
+FILES=build/main.o build/editor/gui.o build/editor/gui/topbar.o \
+	build/editor/gui/outliner.o
+OUT=bin/editor.o
+
+all: $(FILES)
+	@$(CC) $(FLAGS) $(FILES) -o $(OUT) $(LIBS)
+	@echo "Editor built successfully"
+
+build/main.o: src/main.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+build/editor/gui.o: src/editor/gui.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+build/editor/gui/topbar.o: src/editor/gui/topbar.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+build/editor/gui/outliner.o: src/editor/gui/outliner.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+run: all
+	@$(OUT)
+
+clean:
+	@rm $(FILES) $(OUT)

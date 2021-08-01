@@ -1,0 +1,5 @@
+-Iinc
+-Werror
+-std=gnu99
+-g
+-O0
