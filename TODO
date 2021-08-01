@@ -1,6 +1,4 @@
-- An editor struct containing the editor camera, the editor scene (for elements and tools), etcetera
 - Scene signals (on clean, on update, on draw, etcetera)
-- Free memory
 - Add primitive elements
 - Elements added to the scene appear near the camera field of view
 - Scale and rotate elements using their matrix

@@ -8,6 +8,8 @@
 
 #include "../config.h"
 
+void editorgui_init (struct nk_context **ctx);
 void editorgui_draw (struct nk_context **ctx);
+void editorgui_free (struct nk_context **ctx);
 
 #endif

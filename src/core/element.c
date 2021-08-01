@@ -39,10 +39,10 @@ element_create_primitive (enum primitive_type type)
       // TODO: This
       break;
     case PRIMITIVE_SPHERE:
-      // TODO: This
+      el.mesh = GenMeshSphere (0.2f, 32, 32);
       break;
     case PRIMITIVE_TORUS:
-      // TODO: This
+      el.mesh = GenMeshTorus (0.5f, 1.0f, 32, 32);
       break;
     case PRIMITIVE_KNOT:
       // TODO: This

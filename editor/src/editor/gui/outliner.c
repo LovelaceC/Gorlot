@@ -12,6 +12,11 @@ tree_draw_element (struct nk_context **ctx, struct element *el)
 }
 
 void
+outliner_init (struct nk_context **ctx, struct scene *scene)
+{
+}
+
+void
 outliner_draw (struct nk_context **ctx, struct scene *scene)
 {
   if (nk_begin (*ctx, "Outliner",
@@ -39,4 +44,9 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
       // TODO: Selected object components
     }
   nk_end (*ctx);
+}
+
+void
+outliner_free (struct nk_context **ctx, struct scene *scene)
+{
 }

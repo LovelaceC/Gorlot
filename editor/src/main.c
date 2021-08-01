@@ -27,6 +27,8 @@ main ()
 
   struct nk_context *ctx = InitNuklear (10);
 
+  editorgui_init (&ctx);
+
   while (!WindowShouldClose ())
     {
       UpdateCamera (editor.current_cam);
@@ -61,6 +63,8 @@ main ()
       }
       EndDrawing ();
     }
+
+  editorgui_free (&ctx);
 
   UnloadNuklear (ctx);
   CloseWindow ();
