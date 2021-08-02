@@ -1,5 +1,6 @@
 - Scene signals (on clean, on update, on draw, etcetera)
 - Add primitive elements
+- Optimise the object selection in the editor?
 - Elements added to the scene appear near the camera field of view
 - Scale and rotate elements using their matrix
 - Lights support
@@ -36,6 +37,5 @@
 - Isn't the GUI code so messy? Should I rewrite it?
 - Geometry editor
 - Keyboard shortcuts
-- Optimise the object selection in the editor?
 
 - Sort this ToDo list (it is so deorganised)
