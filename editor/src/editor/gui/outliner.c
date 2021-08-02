@@ -15,6 +15,13 @@ tree_draw_element (struct nk_context **ctx, struct element *el)
 
   if (el->selected)
     {
+
+      if (outliner_editor->selected_element
+          && outliner_editor->selected_element != el)
+        {
+          outliner_editor->selected_element->selected = 0;
+        }
+
       outliner_editor->selected_element = el;
     }
 }

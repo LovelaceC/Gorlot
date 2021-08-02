@@ -3,6 +3,7 @@
 - Fix element rotation
 - Fix selection in editor
 - Change element name
+- Use texture for rendering editor (and fix the mouse position for the ray)
 
 - Scene signals (on clean, on update, on draw, etcetera)
 - Optimise the object selection in the editor?

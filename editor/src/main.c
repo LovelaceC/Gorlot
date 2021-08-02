@@ -29,10 +29,6 @@ main ()
 
   editorgui_init (&ctx, &editor);
 
-  RenderTexture2D target
-      = LoadRenderTexture (window_width - OUTLINER_WIDTH,
-                           (window_height - TOPBAR_HEIGHT) - EXPLORER_HEIGHT);
-
   while (!WindowShouldClose ())
     {
       UpdateCamera (editor.current_cam);
@@ -46,9 +42,6 @@ main ()
 
           if (editor_mouse_in_viewport (pos))
             {
-              pos.x += OUTLINER_WIDTH / 2;
-              pos.y -= (TOPBAR_HEIGHT / 2) - EXPLORER_HEIGHT / 2;
-
               editor.editor_ray = GetMouseRay (pos, editor.editor_cam);
 
               // Check collision between ray and all scene objects
@@ -91,8 +84,7 @@ main ()
 
       scene_update (editor.current_scene);
 
-      // Drawing
-      BeginTextureMode (target);
+      BeginDrawing ();
       {
         ClearBackground (BLACK);
 
@@ -106,15 +98,6 @@ main ()
           DrawGrid (1000, 1.0f);
         }
         EndMode3D ();
-      }
-      EndTextureMode ();
-
-      BeginDrawing ();
-      {
-        DrawTextureRec (target.texture,
-                        (Rectangle){ 0, 0, (float)target.texture.width,
-                                     (float)-target.texture.height },
-                        (Vector2){ 0, TOPBAR_HEIGHT }, RAYWHITE);
 
         DrawNuklear (ctx);
       }
