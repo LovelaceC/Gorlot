@@ -1,5 +1,4 @@
 #include <gorlot.h>
-#include <raylib.h>
 
 struct element
 element_create ()
@@ -18,6 +17,7 @@ element_create ()
 
   memset (el.name, 0, sizeof (el.name));
   strncpy (el.name, "Element", sizeof (el.name));
+  el.name_len = 8;
 
   return el;
 }
@@ -65,7 +65,7 @@ element_update (struct element *el)
   Matrix rot = MatrixRotateXYZ (el->rotation);
   Matrix sca = MatrixScale (el->scale.x, el->scale.y, el->scale.z);
 
-  el->matrix = MatrixAdd (rot, sca);
+  el->matrix = MatrixAdd (sca, rot);
 }
 
 void
@@ -74,9 +74,10 @@ element_draw (struct element *el)
   el->model.transform = el->matrix;
   DrawModel (el->model, el->position, 1.0f, WHITE);
 
-  if (el->selected)
+  /*if (el->selected)
     {
-      DrawCubeWires (el->position, el->scale.x + .2f, el->scale.y + .2f,
-                     el->scale.z + .2f, RED);
-    }
+    TODO: Fix this. Basically, create a mesh and draw a cube model whose size
+    is 1.0f but its matrix is also scaled DrawCubeWires (el->position,
+    el->scale.x, el->scale.y, el->scale.z, RED);
+      }*/
 }

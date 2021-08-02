@@ -1,8 +1,12 @@
-- Scene signals (on clean, on update, on draw, etcetera)
+- Fix geometries
 - Add primitive elements
+- Fix element rotation
+- Fix selection in editor
+- Change element name
+
+- Scene signals (on clean, on update, on draw, etcetera)
 - Optimise the object selection in the editor?
 - Elements added to the scene appear near the camera field of view
-- Scale and rotate elements using their matrix
 - Lights support
 - Add tools (graphical, of course)
 - Add support for materials
@@ -23,7 +27,6 @@
 - Project loading
 - Project manager (like that one thing in Unity)
 - Multicamera support (change the BeginMode3D argument?)
-- Element name
 - Gorlot library abstraction (for files, sockets, threads, etcetera)
 - Stop using extern variables
 - Rename `editor/gui/' with `editor/ux' for the UX

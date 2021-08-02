@@ -12,14 +12,12 @@
 
 #include "utils/input.h"
 
-struct editor editor;
-
 int
 main ()
 {
   InitWindow (window_width, window_height, "Gorlot");
 
-  editor = editor_create ();
+  struct editor editor = editor_create ();
   editor.current_cam = &editor.editor_cam;
   editor.current_scene = &editor.editor_scene;
 
@@ -29,7 +27,7 @@ main ()
 
   struct nk_context *ctx = InitNuklear (10);
 
-  editorgui_init (&ctx);
+  editorgui_init (&ctx, &editor);
 
   RenderTexture2D target
       = LoadRenderTexture (window_width - OUTLINER_WIDTH,
@@ -40,7 +38,7 @@ main ()
       UpdateCamera (editor.current_cam);
       UpdateNuklear (ctx);
 
-      editorgui_draw (&ctx);
+      editorgui_draw (&ctx, &editor);
 
       if (IsMouseButtonPressed (MOUSE_BUTTON_LEFT))
         {
@@ -74,10 +72,18 @@ main ()
 
                   if (editor.editor_ray_collision.hit)
                     {
+                      if (editor.selected_element)
+                        {
+                          editor.selected_element->selected = 0;
+                          editor.selected_element = NULL;
+                        }
+
+                      editor.selected_element = el;
                       el->selected = 1;
                       break; // Leave the for loop
                     }
 
+                  editor.selected_element = NULL;
                   el->selected = 0;
                 }
             }
@@ -115,7 +121,7 @@ main ()
       EndDrawing ();
     }
 
-  editorgui_free (&ctx);
+  editorgui_free (&ctx, &editor);
 
   UnloadNuklear (ctx);
   CloseWindow ();
