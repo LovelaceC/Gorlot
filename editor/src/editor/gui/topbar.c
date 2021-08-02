@@ -1,5 +1,7 @@
 #include "topbar.h"
 
+// TODO: Split this into files?
+
 static struct vector free_elm;
 
 void
@@ -9,7 +11,8 @@ topbar_init (struct nk_context **ctx, struct scene *scene)
 }
 
 void
-topbar_draw (struct nk_context **ctx, struct scene *scene)
+topbar_draw (struct nk_context **ctx, struct scene *scene,
+             struct editor *editor)
 {
   if (nk_begin (*ctx, "Menubar", nk_rect (0, 0, window_width, 30),
                 NK_WINDOW_BORDER))
@@ -77,7 +80,7 @@ topbar_draw (struct nk_context **ctx, struct scene *scene)
 
           if (nk_menu_item_label (*ctx, "Delete", NK_TEXT_LEFT))
             {
-              printf ("TODO: Delete.\n");
+              vector_delete_child (&scene->elements, editor->selected_element);
             }
 
           nk_menu_end (*ctx);
@@ -123,6 +126,16 @@ topbar_draw (struct nk_context **ctx, struct scene *scene)
               struct element *el = NULL;
               el = malloc (sizeof (struct element));
               *el = element_create_primitive (PRIMITIVE_TORUS);
+              scene_add_element (scene, el);
+
+              vector_add_child (&free_elm, el);
+            }
+
+          if (nk_menu_item_label (*ctx, "Knot", NK_TEXT_ALIGN_LEFT))
+            {
+              struct element *el = NULL;
+              el = malloc (sizeof (struct element));
+              *el = element_create_primitive (PRIMITIVE_KNOT);
               scene_add_element (scene, el);
 
               vector_add_child (&free_elm, el);

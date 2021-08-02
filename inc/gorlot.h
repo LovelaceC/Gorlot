@@ -18,6 +18,7 @@ struct vector
 
 struct vector vector_create ();
 void vector_add_child (struct vector *vector, void *element);
+void vector_delete_child (struct vector *vector, void *element);
 void vector_free (struct vector *vector);
 
 // core/element.h

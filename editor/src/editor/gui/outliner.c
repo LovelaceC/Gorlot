@@ -41,7 +41,7 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
                          OUTLINER_WIDTH, window_height - TOPBAR_HEIGHT),
                 NK_WINDOW_BORDER))
     {
-      // TODO: Stop using maging numbers
+      // TODO: Stop using magic numbers
       nk_layout_row_static (*ctx, 250, OUTLINER_WIDTH - 22, 1);
 
       if (nk_group_begin (*ctx, "Outliner", NK_WINDOW_BORDER))
@@ -51,6 +51,11 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
             {
               for (int i = 0; i < scene->elements.children; i++)
                 {
+                  if (!scene->elements.child[i])
+                    {
+                      continue;
+                    }
+
                   tree_draw_element (ctx, scene->elements.child[i]);
                 }
 
@@ -67,7 +72,6 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
           // TODO: Move this to another file?
           struct element *selected_element = outliner_editor->selected_element;
 
-          // nk_layout_row (*ctx, NK_STATIC, 25, 2, ratio);
           nk_layout_row_dynamic (*ctx, 25, 1);
           nk_label (*ctx, TextFormat ("Editing %s", selected_element->name),
                     NK_TEXT_LEFT);
@@ -98,15 +102,12 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
           /*nk_label (*ctx, "Rotation:", NK_TEXT_LEFT);
           nk_layout_row_dynamic (*ctx, 25, 3);
           {
-            nk_property_float (*ctx, "#x", -4294967296,
-                               &selected_element->rotation.x, 4294967296, 1.0f,
-                               0.2f);
-            nk_property_float (*ctx, "#y", -4294967296,
-                               &selected_element->rotation.y, 4294967296, 1.0f,
-                               0.2f);
-            nk_property_float (*ctx, "#z", -4294967296,
-                               &selected_element->rotation.z, 4294967296, 1.0f,
-                               0.2f);
+            nk_property_float (*ctx, "#x", -360, &selected_element->rotation.x,
+                               360, 1.0f, 0.2f);
+            nk_property_float (*ctx, "#y", -360, &selected_element->rotation.y,
+                               360, 1.0f, 0.2f);
+            nk_property_float (*ctx, "#z", -360, &selected_element->rotation.z,
+                               360, 1.0f, 0.2f);
           }
           nk_layout_row_dynamic (*ctx, 25, 1);*/
 

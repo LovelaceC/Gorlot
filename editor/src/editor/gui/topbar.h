@@ -6,8 +6,11 @@
 
 #include "../../config.h"
 
+#include "../editor.h"
+
 void topbar_init (struct nk_context **ctx, struct scene *scene);
-void topbar_draw (struct nk_context **ctx, struct scene *scene);
+void topbar_draw (struct nk_context **ctx, struct scene *scene,
+                  struct editor *editor);
 void topbar_free (struct nk_context **ctx, struct scene *scene);
 
 #endif

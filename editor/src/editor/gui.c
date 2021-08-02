@@ -15,7 +15,7 @@ editorgui_init (struct nk_context **ctx, struct editor *editor)
 void
 editorgui_draw (struct nk_context **ctx, struct editor *editor)
 {
-  topbar_draw (ctx, editor->current_scene);
+  topbar_draw (ctx, editor->current_scene, editor);
   outliner_draw (ctx, editor->current_scene);
   explorer_draw (ctx, editor->current_scene);
 }

@@ -1,9 +1,9 @@
 - Fix geometries
 - Add primitive elements
 - Fix element rotation
-- Fix selection in editor
 - Change element name
 - Use texture for rendering editor (and fix the mouse position for the ray)
+- Do the ToDo's all through the source code
 
 - Scene signals (on clean, on update, on draw, etcetera)
 - Optimise the object selection in the editor?

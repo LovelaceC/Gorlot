@@ -1,4 +1,6 @@
 #include <gorlot.h>
+#include <raylib.h>
+#include <raymath.h>
 
 struct element
 element_create ()
@@ -33,19 +35,19 @@ element_create_primitive (enum primitive_type type)
       el.mesh = GenMeshCube (1.0f, 1.0f, 1.0f);
       break;
     case PRIMITIVE_CYLINDER:
-      el.mesh = GenMeshCylinder (0.2f, 1.0f, 32);
+      // el.mesh = GenMeshCylinder (0.5f, 1.0f, 32);
       break;
     case PRIMITIVE_PLANE:
       // TODO: This
       break;
     case PRIMITIVE_SPHERE:
-      el.mesh = GenMeshSphere (0.2f, 32, 32);
+      el.mesh = GenMeshSphere (0.5f, 32, 32);
       break;
     case PRIMITIVE_TORUS:
       el.mesh = GenMeshTorus (0.5f, 1.0f, 32, 32);
       break;
     case PRIMITIVE_KNOT:
-      // TODO: This
+      el.mesh = GenMeshKnot (1.0f, 1.0f, 32, 32);
       break;
     default:
       printf (
@@ -62,22 +64,26 @@ element_create_primitive (enum primitive_type type)
 void
 element_update (struct element *el)
 {
-  Matrix rot = MatrixRotateXYZ (el->rotation);
+  Vector3 rotation = el->rotation;
+  rotation.x *= DEG2RAD;
+  rotation.y *= DEG2RAD;
+  rotation.z *= DEG2RAD;
+
+  Matrix rot = MatrixRotateXYZ (rotation);
   Matrix sca = MatrixScale (el->scale.x, el->scale.y, el->scale.z);
 
-  el->matrix = MatrixAdd (sca, rot);
+  el->matrix = MatrixNormalize (MatrixAdd (rot, sca));
 }
 
 void
 element_draw (struct element *el)
 {
   el->model.transform = el->matrix;
+
   DrawModel (el->model, el->position, 1.0f, WHITE);
 
-  /*if (el->selected)
+  if (el->selected)
     {
-    TODO: Fix this. Basically, create a mesh and draw a cube model whose size
-    is 1.0f but its matrix is also scaled DrawCubeWires (el->position,
-    el->scale.x, el->scale.y, el->scale.z, RED);
-      }*/
+      DrawCubeWires (el->position, el->scale.x, el->scale.y, el->scale.z, RED);
+    }
 }
