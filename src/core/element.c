@@ -73,4 +73,10 @@ element_draw (struct element *el)
 {
   el->model.transform = el->matrix;
   DrawModel (el->model, el->position, 1.0f, WHITE);
+
+  if (el->selected)
+    {
+      DrawCubeWires (el->position, el->scale.x + .2f, el->scale.y + .2f,
+                     el->scale.z + .2f, RED);
+    }
 }

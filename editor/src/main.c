@@ -10,6 +10,8 @@
 #include "editor/editor.h"
 #include "editor/gui.h"
 
+#include "utils/input.h"
+
 struct editor editor;
 
 int
@@ -35,6 +37,44 @@ main ()
       UpdateNuklear (ctx);
 
       editorgui_draw (&ctx);
+
+      if (IsMouseButtonPressed (MOUSE_BUTTON_LEFT))
+        {
+          Vector2 pos = GetMousePosition ();
+
+          if (editor_mouse_in_viewport (pos))
+            {
+              editor.editor_ray = GetMouseRay (pos, editor.editor_cam);
+
+              // Check collision between ray and all scene objects
+              for (int i = 0; i < editor.current_scene->elements.children; i++)
+                {
+                  // TODO: Optimise this?
+                  struct element *el
+                      = (struct element *)
+                            editor.current_scene->elements.child[i];
+
+                  Vector3 pos = el->position;
+                  Vector3 scale = el->scale;
+
+                  editor.editor_ray_collision = GetRayCollisionBox (
+                      editor.editor_ray,
+                      (BoundingBox){
+                          (Vector3){ pos.x - scale.x / 2, pos.y - scale.y / 2,
+                                     pos.z - scale.z / 2 },
+                          (Vector3){ pos.x + scale.x / 2, pos.y + scale.y / 2,
+                                     pos.z + scale.z / 2 } });
+
+                  if (editor.editor_ray_collision.hit)
+                    {
+                      el->selected = 1;
+                      break; // Leave the for loop
+                    }
+
+                  el->selected = 0;
+                }
+            }
+        }
 
       scene_update (editor.current_scene);
 

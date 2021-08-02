@@ -4,7 +4,7 @@ FLAGS=-I../inc -L../bin -Werror -std=gnu99 -g -O0
 LIBS=-lraylib -ldl -lm -lpthread -lgorlot
 
 FILES=build/main.o build/editor/gui.o build/editor/gui/topbar.o \
-	build/editor/gui/outliner.o build/editor/editor.o
+	build/editor/gui/outliner.o build/editor/editor.o build/utils/input.o
 OUT=bin/editor.o
 
 all: $(FILES)
@@ -28,6 +28,10 @@ build/editor/gui/outliner.o: src/editor/gui/outliner.c
 	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
 
 build/editor/editor.o: src/editor/editor.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+build/utils/input.o: src/utils/input.c
 	@echo -e "CC\t\t"$<
 	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
 

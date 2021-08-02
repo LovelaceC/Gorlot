@@ -35,5 +35,7 @@
 - If the mouse is on a nuklear window, don't let the camera move
 - Isn't the GUI code so messy? Should I rewrite it?
 - Geometry editor
+- Keyboard shortcuts
+- Optimise the object selection in the editor?
 
 - Sort this ToDo list (it is so deorganised)

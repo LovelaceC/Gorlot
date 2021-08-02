@@ -12,6 +12,11 @@ struct editor
 
   Camera3D *current_cam;
   struct scene *current_scene;
+
+  Ray editor_ray;
+  RayCollision editor_ray_collision;
+
+  struct element *selected_element;
 };
 
 struct editor editor_create ();

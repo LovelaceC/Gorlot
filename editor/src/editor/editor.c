@@ -14,8 +14,13 @@ editor_create ()
 
   editor.editor_scene = scene_create ();
 
+  editor.editor_ray = (Ray){ 0 };
+  editor.editor_ray_collision = (RayCollision){ 0 };
+
   editor.current_cam = NULL;
   editor.current_scene = NULL;
+
+  editor.selected_element = NULL;
 
   return editor;
 }
