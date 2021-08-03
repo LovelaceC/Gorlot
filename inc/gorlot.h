@@ -36,9 +36,8 @@ struct element
   struct vector children;
 
   // Util info?
-  int name_len;
-  char name[32];
   int selected;
+  int visible;
 };
 
 enum primitive_type

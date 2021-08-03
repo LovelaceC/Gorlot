@@ -16,10 +16,7 @@ element_create ()
   el.children = vector_create ();
 
   el.selected = 0;
-
-  memset (el.name, 0, sizeof (el.name));
-  strncpy (el.name, "Element", sizeof (el.name));
-  el.name_len = 8;
+  el.visible = 1;
 
   return el;
 }
@@ -80,7 +77,10 @@ element_draw (struct element *el)
 {
   el->model.transform = el->matrix;
 
-  DrawModel (el->model, el->position, 1.0f, WHITE);
+  if (el->visible)
+    {
+      DrawModel (el->model, el->position, 1.0f, WHITE);
+    }
 
   if (el->selected)
     {

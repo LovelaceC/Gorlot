@@ -1,12 +1,11 @@
 #include "outliner.h"
-#include <raylib.h>
 
 struct editor *outliner_editor = NULL;
 
 static void
 tree_draw_element (struct nk_context **ctx, struct element *el)
 {
-  if (nk_tree_element_push (*ctx, NK_TREE_NODE, el->name, NK_MINIMIZED,
+  if (nk_tree_element_push (*ctx, NK_TREE_NODE, "Element", NK_MINIMIZED,
                             &el->selected))
     {
       // TODO: If element has children, draw them here :3
@@ -73,15 +72,7 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
           struct element *selected_element = outliner_editor->selected_element;
 
           nk_layout_row_dynamic (*ctx, 25, 1);
-          nk_label (*ctx, TextFormat ("Editing %s", selected_element->name),
-                    NK_TEXT_LEFT);
-
-          // TODO: Check when the name is being modified and clear it, and
-          // assign the new value.
-          /*nk_label (*ctx, "Name:", NK_TEXT_LEFT);
-          nk_edit_string (
-              *ctx, NK_EDIT_SIMPLE, buf, &selected_element->name_len,
-              sizeof (selected_element->name) - 1, nk_filter_default);*/
+          nk_label (*ctx, "Element", NK_TEXT_LEFT);
 
           nk_label (*ctx, "Position:", NK_TEXT_LEFT);
           nk_layout_row_dynamic (*ctx, 25, 3);
@@ -125,6 +116,8 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
                                0.2f);
           }
           nk_layout_row_dynamic (*ctx, 25, 1);
+
+          nk_checkbox_label (*ctx, "Visible", &selected_element->visible);
         }
     }
   nk_end (*ctx);

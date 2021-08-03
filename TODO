@@ -1,7 +1,10 @@
 - Fix geometries
+- Fix selected box
+- Fix outliner visible
 - Add primitive elements
 - Fix element rotation
 - Change element name
+- Rotate an element
 - Use texture for rendering editor (and fix the mouse position for the ray)
 - Do the ToDo's all through the source code
 
