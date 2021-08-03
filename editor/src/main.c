@@ -95,6 +95,8 @@ main ()
               element_draw (editor.current_scene->elements.child[i]);
             }
 
+          editor_draw_wires (&editor);
+
           DrawGrid (1000, 1.0f);
         }
         EndMode3D ();

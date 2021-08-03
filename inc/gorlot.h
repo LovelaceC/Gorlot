@@ -35,6 +35,8 @@ struct element
 
   struct vector children;
 
+  Color color;
+
   // Util info?
   int selected;
   int visible;

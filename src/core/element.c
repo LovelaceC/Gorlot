@@ -15,6 +15,8 @@ element_create ()
 
   el.children = vector_create ();
 
+  el.color = RAYWHITE;
+
   el.selected = 0;
   el.visible = 1;
 
@@ -79,11 +81,6 @@ element_draw (struct element *el)
 
   if (el->visible)
     {
-      DrawModel (el->model, el->position, 1.0f, WHITE);
-    }
-
-  if (el->selected)
-    {
-      DrawCubeWires (el->position, el->scale.x, el->scale.y, el->scale.z, RED);
+      DrawModel (el->model, el->position, 1.0f, el->color);
     }
 }

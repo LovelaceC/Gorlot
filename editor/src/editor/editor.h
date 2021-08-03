@@ -8,6 +8,8 @@ struct editor
   struct scene tool_scene;
   struct scene editor_scene;
 
+  struct element wires;
+
   Camera3D editor_cam;
 
   Camera3D *current_cam;
@@ -20,6 +22,7 @@ struct editor
 };
 
 struct editor editor_create ();
+void editor_draw_wires (struct editor *editor);
 void editor_free (struct editor *editor);
 
 #endif
