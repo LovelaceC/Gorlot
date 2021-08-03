@@ -40,7 +40,8 @@ main ()
         {
           Vector2 pos = GetMousePosition ();
 
-          if (editor_mouse_in_viewport (pos))
+          if (editor_mouse_in_viewport (pos)
+              && editor.selected_tool == TOOL_SELECT)
             {
               editor.editor_ray = GetMouseRay (pos, editor.editor_cam);
 
@@ -83,6 +84,7 @@ main ()
         }
 
       scene_update (editor.current_scene);
+      element_update (&editor.move_tool);
 
       BeginDrawing ();
       {
@@ -90,6 +92,8 @@ main ()
 
         BeginMode3D (*editor.current_cam);
         {
+          editor_draw_tools (&editor);
+
           for (int i = 0; i < editor.current_scene->elements.children; i++)
             {
               element_draw (editor.current_scene->elements.child[i]);

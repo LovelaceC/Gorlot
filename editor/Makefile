@@ -5,7 +5,7 @@ LIBS=-lraylib -ldl -lm -lpthread -lgorlot
 
 FILES=build/main.o build/editor/gui.o build/editor/gui/topbar.o \
 	build/editor/gui/outliner.o build/editor/editor.o build/utils/input.o \
-	build/editor/gui/explorer.o
+	build/editor/gui/explorer.o build/editor/tools/move_tool.o
 OUT=bin/editor.o
 
 all: $(FILES)
@@ -37,6 +37,10 @@ build/utils/input.o: src/utils/input.c
 	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
 
 build/editor/gui/explorer.o: src/editor/gui/explorer.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+build/editor/tools/move_tool.o: src/editor/tools/move_tool.c
 	@echo -e "CC\t\t"$<
 	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
 

@@ -3,10 +3,26 @@
 
 #include <gorlot.h>
 
+#include "tools/move_tool.h"
+
+enum tools
+{
+  TOOL_SELECT,
+  TOOL_MOVE,
+  TOOL_ROTATE,
+  TOOL_SCALE
+};
+
 struct editor
 {
-  struct scene tool_scene;
   struct scene editor_scene;
+
+  enum tools selected_tool;
+
+  // Tools
+  struct element move_tool;
+  struct element rotate_tool;
+  struct element scale_tool;
 
   struct element wires;
 
@@ -23,6 +39,7 @@ struct editor
 
 struct editor editor_create ();
 void editor_draw_wires (struct editor *editor);
+void editor_draw_tools (struct editor *editor);
 void editor_free (struct editor *editor);
 
 #endif

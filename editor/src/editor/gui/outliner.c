@@ -90,7 +90,7 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
           nk_layout_row_dynamic (*ctx, 25, 1);
 
           // TODO: Rotation
-          /*nk_label (*ctx, "Rotation:", NK_TEXT_LEFT);
+          nk_label (*ctx, "Rotation:", NK_TEXT_LEFT);
           nk_layout_row_dynamic (*ctx, 25, 3);
           {
             nk_property_float (*ctx, "#x", -360, &selected_element->rotation.x,
@@ -100,7 +100,7 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
             nk_property_float (*ctx, "#z", -360, &selected_element->rotation.z,
                                360, 1.0f, 0.2f);
           }
-          nk_layout_row_dynamic (*ctx, 25, 1);*/
+          nk_layout_row_dynamic (*ctx, 25, 1);
 
           nk_label (*ctx, "Scale:", NK_TEXT_LEFT);
           nk_layout_row_dynamic (*ctx, 25, 3);

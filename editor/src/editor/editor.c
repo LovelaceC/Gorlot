@@ -6,7 +6,11 @@ editor_create ()
   struct editor editor;
 
   editor.editor_scene = scene_create ();
-  editor.tool_scene = scene_create ();
+
+  editor.selected_tool = TOOL_MOVE; // By default, here it must be select
+
+  editor.move_tool = move_tool ();
+  // TODO: The other tools
 
   editor.wires = element_create_primitive (PRIMITIVE_CUBE);
   editor.wires.position = (Vector3){ 0.0f, 1000000.f, 0.0f };
@@ -48,9 +52,34 @@ editor_draw_wires (struct editor *editor)
 }
 
 void
+editor_draw_tools (struct editor *editor)
+{
+  if (editor->selected_element)
+    {
+      switch (editor->selected_tool)
+        {
+          // TODO: Draw tools here
+        case TOOL_MOVE:
+          editor->move_tool.position = editor->selected_element->position;
+          struct element *el = editor->move_tool.children.child[0];
+          // editor->move_tool.children.child[0]->rotation =
+
+          // element_update (&editor->move_tool);
+          element_draw (&editor->move_tool);
+          break;
+        case TOOL_ROTATE:
+          break;
+        case TOOL_SCALE:
+          break;
+        default:
+          break;
+        }
+    }
+}
+
+void
 editor_free (struct editor *editor)
 {
-  scene_free (&editor->tool_scene);
   scene_free (&editor->editor_scene);
 
   editor->current_cam = NULL;
