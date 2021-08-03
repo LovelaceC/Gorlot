@@ -3,7 +3,8 @@ CC=gcc
 FLAGS=-Iinc -Werror -std=gnu99 -g -O0 -fPIC
 LIBS=-lraylib -ldl -lm -lpthread
 
-FILES=build/utils/vector.o build/core/scene.o build/core/element.o
+FILES=build/utils/vector.o build/core/scene.o build/core/element.o \
+	build/math/matrix.o build/math/vector.o
 OUT=bin/libgorlot.so
 
 all: $(FILES)
@@ -19,6 +20,14 @@ build/core/scene.o: src/core/scene.c
 	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
 
 build/core/element.o: src/core/element.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+build/math/matrix.o: src/math/matrix.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+build/math/vector.o: src/math/vector.c
 	@echo -e "CC\t\t"$<
 	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
 

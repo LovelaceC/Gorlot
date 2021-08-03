@@ -94,11 +94,11 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
           nk_layout_row_dynamic (*ctx, 25, 3);
           {
             nk_property_float (*ctx, "#x", -360, &selected_element->rotation.x,
-                               360, 1.0f, 0.2f);
+                               360, 1.0f, 1.0f);
             nk_property_float (*ctx, "#y", -360, &selected_element->rotation.y,
-                               360, 1.0f, 0.2f);
+                               360, 1.0f, 1.0f);
             nk_property_float (*ctx, "#z", -360, &selected_element->rotation.z,
-                               360, 1.0f, 0.2f);
+                               360, 1.0f, 1.0f);
           }
           nk_layout_row_dynamic (*ctx, 25, 1);
 

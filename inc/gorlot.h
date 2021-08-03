@@ -1,6 +1,8 @@
 #ifndef __GORLOT_H
 #define __GORLOT_H
 
+#include <cglm/cglm.h>
+
 #include <raylib.h>
 #include <raymath.h>
 
@@ -67,5 +69,13 @@ struct scene scene_create ();
 void scene_add_element (struct scene *scene, struct element *element);
 void scene_update (struct scene *scene);
 void scene_free (struct scene *scene);
+
+// math/matrix.h
+void matrix_mat4_scale_from_vec3 (mat4 mat, vec3 vec);
+void matrix_mat4_rotate_from_vec3 (mat4 mat, vec3 vec);
+Matrix matrix_mat4_to_matrix (mat4 mat);
+
+// math/vector.h
+float *vector_vector3_to_vec3 (Vector3 vector);
 
 #endif
