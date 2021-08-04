@@ -122,6 +122,12 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
 
           if (nk_menu_item_label (*ctx, "Container", NK_TEXT_ALIGN_LEFT))
             {
+              struct element *el = NULL;
+              el = malloc (sizeof (struct element));
+              *el = element_create ();
+              scene_add_element (scene, el);
+
+              vector_add_child (&free_elm, el);
             }
 
           if (nk_menu_item_label (*ctx, "Cube", NK_TEXT_ALIGN_LEFT))

@@ -9,6 +9,7 @@ move_tool ()
   struct element *el = NULL;
   el = malloc (sizeof (struct element));
   *el = element_create ();
+  el->scale = (Vector3){ 0.1f, 0.1f, 0.1f };
 
   Mesh cylinder = GenMeshCylinder (0.05f, 1.0f, 32);
 

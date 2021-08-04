@@ -5,6 +5,9 @@ struct editor *outliner_editor = NULL;
 static void
 tree_draw_element (struct nk_context **ctx, struct element *el)
 {
+  struct nk_rect bounds;
+  bounds = nk_widget_bounds (*ctx);
+
   if (nk_tree_element_push (*ctx, NK_TREE_NODE, "Element", NK_MINIMIZED,
                             &el->selected))
     {
@@ -14,7 +17,6 @@ tree_draw_element (struct nk_context **ctx, struct element *el)
 
   if (el->selected)
     {
-
       if (outliner_editor->selected_element
           && outliner_editor->selected_element != el)
         {
@@ -22,6 +24,20 @@ tree_draw_element (struct nk_context **ctx, struct element *el)
         }
 
       outliner_editor->selected_element = el;
+    }
+
+  if (nk_contextual_begin (*ctx, 0, nk_vec2 (100, 300), bounds))
+    {
+      nk_layout_row_dynamic (*ctx, 15, 1);
+
+      // TODO: Make this useful
+      if (nk_contextual_item_label (*ctx, "Delete", NK_TEXT_CENTERED))
+        {
+          vector_delete_child (&outliner_editor->current_scene->elements, el);
+          outliner_editor->selected_element = NULL;
+        }
+
+      nk_contextual_end (*ctx);
     }
 }
 
