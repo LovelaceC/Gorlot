@@ -7,7 +7,8 @@
 #include <gorlot.h>
 
 #include "../config.h"
-#include "editor.h"
+
+struct editor;
 
 void editorgui_init (struct nk_context **ctx, struct editor *editor);
 void editorgui_draw (struct nk_context **ctx, struct editor *editor);

@@ -30,8 +30,7 @@ scene_free (struct scene *scene)
 {
   for (int i = 0; i < scene->elements.children; i++)
     {
-      struct element *el = (struct element *)scene->elements.child[i];
-      UnloadModel (el->model);
+      element_free (scene->elements.child[i]);
     }
 
   vector_free (&scene->elements);

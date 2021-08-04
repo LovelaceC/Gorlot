@@ -61,6 +61,7 @@ struct element element_create_primitive (enum primitive_type type);
 void element_add_child (struct element *parent, struct element *child);
 void element_update (struct element *el);
 void element_draw (struct element *el);
+void element_free (struct element *el);
 
 // core/scene.h
 struct scene
@@ -80,5 +81,6 @@ Matrix matrix_mat4_to_matrix (mat4 mat);
 
 // math/vector.h
 float *vector_vector3_to_vec3 (Vector3 vector);
+Vector3 vector_vector3_add_vector3 (Vector3 v1, Vector3 v2);
 
 #endif

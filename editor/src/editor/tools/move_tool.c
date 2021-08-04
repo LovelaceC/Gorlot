@@ -1,5 +1,7 @@
 #include "move_tool.h"
 
+#include "../editor.h"
+
 struct element *
 move_tool ()
 {
@@ -45,4 +47,33 @@ move_tool ()
   element_add_child (el, z);
 
   return el;
+}
+
+void
+move_tool_update (struct editor *editor, struct element *move_tool)
+{
+  if (editor->selected_element)
+    {
+      move_tool->position = editor->selected_element->position;
+
+      // TODO: Update move tool scale based on the selected_element's scale
+    }
+
+  element_update (move_tool);
+}
+
+void
+move_tool_free (struct element *move_tool)
+{
+  for (int i = 0; i < move_tool->children.children; i++)
+    {
+      element_free (move_tool->children.child[i]);
+
+      free (move_tool->children.child[i]);
+      move_tool->children.child[i] = NULL;
+    }
+
+  element_free (move_tool);
+  free (move_tool);
+  move_tool = NULL;
 }

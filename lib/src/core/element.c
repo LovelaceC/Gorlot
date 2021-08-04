@@ -77,9 +77,16 @@ element_update (struct element *el)
   rotation.y *= DEG2RAD;
   rotation.z *= DEG2RAD;
 
+  Vector3 scale = el->scale;
+
+  if (el->parent)
+    {
+      scale = vector_vector3_add_vector3 (el->scale, el->parent->scale);
+    }
+
   mat4 mat = GLM_MAT4_IDENTITY_INIT;
   matrix_mat4_rotate_from_vec3 (mat, vector_vector3_to_vec3 (rotation));
-  matrix_mat4_scale_from_vec3 (mat, vector_vector3_to_vec3 (el->scale));
+  matrix_mat4_scale_from_vec3 (mat, vector_vector3_to_vec3 (scale));
 
   el->matrix = matrix_mat4_to_matrix (mat);
 
@@ -106,12 +113,22 @@ element_draw (struct element *el)
       // Inherit the parent's position
       if (el->parent)
         {
-          // TODO: Move this to a function
-          position.x += el->parent->position.x;
-          position.y += el->parent->position.y;
-          position.z += el->parent->position.z;
+          position = vector_vector3_add_vector3 (el->position,
+                                                 el->parent->position);
         }
 
       DrawModel (el->model, position, 1.0f, el->color);
     }
+}
+
+void
+element_free (struct element *el)
+{
+  UnloadMesh (el->mesh);
+  UnloadModel (el->model);
+
+  vector_free (&el->children);
+  el->children.child = NULL;
+
+  el->parent = NULL;
 }

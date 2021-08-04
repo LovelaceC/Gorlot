@@ -7,7 +7,7 @@ editor_create ()
 
   editor.editor_scene = scene_create ();
 
-  editor.selected_tool = TOOL_MOVE;
+  editor.selected_tool = TOOL_SELECT;
   editor.current_tool = NULL;
 
   editor.move_tool = move_tool ();
@@ -37,6 +37,21 @@ editor_create ()
 }
 
 void
+editor_update (struct editor *editor, struct nk_context **ctx)
+{
+  UpdateCamera (editor->current_cam);
+  UpdateNuklear (*ctx);
+
+  // TODO: Move the editor select here?
+
+  editorgui_draw (ctx, editor);
+  scene_update (editor->current_scene);
+
+  // TODO: Update all the other tools here :3
+  move_tool_update (editor, editor->move_tool);
+}
+
+void
 editor_draw_wires (struct editor *editor)
 {
   if (editor->selected_element)
@@ -61,8 +76,6 @@ editor_draw_tools (struct editor *editor)
         {
           // TODO: Draw tools here
         case TOOL_MOVE:
-          editor->move_tool->position = editor->selected_element->position;
-          element_update (editor->move_tool);
           element_draw (editor->move_tool);
           break;
         case TOOL_ROTATE:
@@ -80,15 +93,7 @@ editor_free (struct editor *editor)
 {
   scene_free (&editor->editor_scene);
 
-  // TODO: Move this to a function
-  for (int i = 0; i < editor->move_tool->children.children; i++)
-    {
-      free (editor->move_tool->children.child[i]);
-      editor->move_tool->children.child[i] = NULL;
-    }
-  vector_free (&editor->move_tool->children);
-  free (editor->move_tool);
-  editor->move_tool = NULL;
+  move_tool_free (editor->move_tool);
 
   editor->current_cam = NULL;
   editor->current_scene = NULL;

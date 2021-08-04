@@ -87,6 +87,35 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
         }
 
       nk_layout_row_push (*ctx, 60);
+      if (nk_menu_begin_label (*ctx, "Tools", NK_TEXT_LEFT,
+                               nk_vec2 (120, 200)))
+        {
+          nk_layout_row_dynamic (*ctx, 18, 1);
+
+          if (nk_menu_item_label (*ctx, "Select", NK_TEXT_ALIGN_LEFT))
+            {
+              editor->selected_tool = TOOL_SELECT;
+            }
+
+          if (nk_menu_item_label (*ctx, "Move", NK_TEXT_ALIGN_LEFT))
+            {
+              editor->selected_tool = TOOL_MOVE;
+            }
+
+          if (nk_menu_item_label (*ctx, "Rotate", NK_TEXT_ALIGN_LEFT))
+            {
+              editor->selected_tool = TOOL_ROTATE;
+            }
+
+          if (nk_menu_item_label (*ctx, "Scale", NK_TEXT_ALIGN_LEFT))
+            {
+              editor->selected_tool = TOOL_SCALE;
+            }
+
+          nk_menu_end (*ctx);
+        }
+
+      nk_layout_row_push (*ctx, 60);
       if (nk_menu_begin_label (*ctx, "Add", NK_TEXT_LEFT, nk_vec2 (120, 200)))
         {
           nk_layout_row_dynamic (*ctx, 18, 1);

@@ -8,7 +8,6 @@
 #include "config.h"
 
 #include "editor/editor.h"
-#include "editor/gui.h"
 
 #include "utils/input.h"
 
@@ -31,10 +30,7 @@ main ()
 
   while (!WindowShouldClose ())
     {
-      UpdateCamera (editor.current_cam);
-      UpdateNuklear (ctx);
-
-      editorgui_draw (&ctx, &editor);
+      editor_update (&editor, &ctx);
 
       if (IsMouseButtonPressed (MOUSE_BUTTON_LEFT))
         {
@@ -82,8 +78,6 @@ main ()
                 }
             }
         }
-
-      scene_update (editor.current_scene);
 
       BeginDrawing ();
       {
