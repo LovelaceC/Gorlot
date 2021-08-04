@@ -7,7 +7,8 @@ editor_create ()
 
   editor.editor_scene = scene_create ();
 
-  editor.selected_tool = TOOL_SELECT;
+  editor.selected_tool = TOOL_MOVE;
+  editor.current_tool = NULL;
 
   editor.move_tool = move_tool ();
   // TODO: The other tools
@@ -60,8 +61,9 @@ editor_draw_tools (struct editor *editor)
         {
           // TODO: Draw tools here
         case TOOL_MOVE:
-          editor->move_tool.position = editor->selected_element->position;
-          element_draw (&editor->move_tool);
+          editor->move_tool->position = editor->selected_element->position;
+          element_update (editor->move_tool);
+          element_draw (editor->move_tool);
           break;
         case TOOL_ROTATE:
           break;
@@ -77,6 +79,16 @@ void
 editor_free (struct editor *editor)
 {
   scene_free (&editor->editor_scene);
+
+  // TODO: Move this to a function
+  for (int i = 0; i < editor->move_tool->children.children; i++)
+    {
+      free (editor->move_tool->children.child[i]);
+      editor->move_tool->children.child[i] = NULL;
+    }
+  vector_free (&editor->move_tool->children);
+  free (editor->move_tool);
+  editor->move_tool = NULL;
 
   editor->current_cam = NULL;
   editor->current_scene = NULL;

@@ -17,6 +17,8 @@ element_create ()
 
   el.color = RAYWHITE;
 
+  el.parent = NULL;
+
   el.selected = 0;
   el.visible = 1;
 
@@ -61,6 +63,13 @@ element_create_primitive (enum primitive_type type)
 }
 
 void
+element_add_child (struct element *parent, struct element *child)
+{
+  vector_add_child (&parent->children, child);
+  child->parent = parent;
+}
+
+void
 element_update (struct element *el)
 {
   Vector3 rotation = el->rotation;
@@ -92,6 +101,17 @@ element_draw (struct element *el)
 
   if (el->visible)
     {
-      DrawModel (el->model, el->position, 1.0f, el->color);
+      Vector3 position = el->position;
+
+      // Inherit the parent's position
+      if (el->parent)
+        {
+          // TODO: Move this to a function
+          position.x += el->parent->position.x;
+          position.y += el->parent->position.y;
+          position.z += el->parent->position.z;
+        }
+
+      DrawModel (el->model, position, 1.0f, el->color);
     }
 }

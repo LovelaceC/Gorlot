@@ -84,7 +84,6 @@ main ()
         }
 
       scene_update (editor.current_scene);
-      element_update (&editor.move_tool);
 
       BeginDrawing ();
       {

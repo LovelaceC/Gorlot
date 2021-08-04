@@ -18,11 +18,12 @@ struct editor
   struct scene editor_scene;
 
   enum tools selected_tool;
+  struct element *current_tool;
 
   // Tools
-  struct element move_tool;
-  struct element rotate_tool;
-  struct element scale_tool;
+  struct element *move_tool;
+  struct element *rotate_tool;
+  struct element *scale_tool;
 
   struct element wires;
 

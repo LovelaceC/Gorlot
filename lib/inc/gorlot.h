@@ -39,6 +39,8 @@ struct element
 
   Color color;
 
+  struct element *parent;
+
   // Util info?
   int selected;
   int visible;
@@ -56,6 +58,7 @@ enum primitive_type
 
 struct element element_create ();
 struct element element_create_primitive (enum primitive_type type);
+void element_add_child (struct element *parent, struct element *child);
 void element_update (struct element *el);
 void element_draw (struct element *el);
 

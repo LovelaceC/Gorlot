@@ -1,4 +1,4 @@
--Iinc
+-Ilib/inc
 -Werror
 -std=gnu99
 -g

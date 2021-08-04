@@ -1,6 +1,6 @@
 CC=gcc
 
-FLAGS=-I../inc -L../bin -Werror -std=gnu99 -g -O0
+FLAGS=-I../lib/inc -L../lib/bin -Werror -std=gnu99 -g -O0
 LIBS=-lraylib -ldl -lm -lpthread -lgorlot
 
 FILES=build/main.o build/editor/gui.o build/editor/gui/topbar.o \

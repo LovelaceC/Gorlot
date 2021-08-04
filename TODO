@@ -5,6 +5,7 @@
 - Use texture for rendering editor (and fix the mouse position for the ray)
 - Do the ToDo's all through the source code
 - More math functions (so I can mix cglm and raymath in a cleaner way?)
+- element_free function (unload model, mesh and frees children)
 
 - Scene signals (on clean, on update, on draw, etcetera)
 - Optimise the object selection in the editor?

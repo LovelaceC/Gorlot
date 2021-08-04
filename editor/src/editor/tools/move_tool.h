@@ -3,6 +3,6 @@
 
 #include <gorlot.h>
 
-struct element move_tool ();
+struct element *move_tool ();
 
 #endif

@@ -10,8 +10,8 @@ void
 matrix_mat4_rotate_from_vec3 (mat4 mat, vec3 vec)
 {
   glm_rotate_x (mat, vec[0], mat);
-  glm_rotate_x (mat, vec[1], mat);
-  glm_rotate_x (mat, vec[2], mat);
+  glm_rotate_y (mat, vec[1], mat);
+  glm_rotate_z (mat, vec[2], mat);
 }
 
 Matrix
