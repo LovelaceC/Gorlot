@@ -34,6 +34,8 @@ tree_draw_element (struct nk_context **ctx, struct element *el)
       if (nk_contextual_item_label (*ctx, "Delete", NK_TEXT_CENTERED))
         {
           vector_delete_child (&outliner_editor->current_scene->elements, el);
+          UnloadModel (el->model);
+
           outliner_editor->selected_element = NULL;
         }
 

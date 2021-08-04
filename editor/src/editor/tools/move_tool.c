@@ -11,37 +11,38 @@ move_tool ()
   *el = element_create ();
   el->scale = (Vector3){ 0.1f, 0.1f, 0.1f };
 
-  Mesh cylinder = GenMeshCylinder (0.05f, 1.0f, 32);
-
   // X Axis
   struct element *x = NULL;
   x = malloc (sizeof (struct element));
   *x = element_create ();
 
+  x->mesh = GenMeshCylinder (0.05f, 1.0f, 32);
   x->color = RED;
   x->rotation.z = 90.0f;
   x->scale.x = 1.5f;
-  x->model = LoadModelFromMesh (cylinder);
+  x->model = LoadModelFromMesh (x->mesh);
 
   // Y Axis
   struct element *y = NULL;
   y = malloc (sizeof (struct element));
   *y = element_create ();
 
+  y->mesh = GenMeshCylinder (0.05f, 1.0f, 32);
   y->color = GREEN;
   y->rotation.y = 90.0f;
   y->scale.y = 1.5f;
-  y->model = LoadModelFromMesh (cylinder);
+  y->model = LoadModelFromMesh (y->mesh);
 
   // Z Axis
   struct element *z = NULL;
   z = malloc (sizeof (struct element));
   *z = element_create ();
 
+  z->mesh = GenMeshCylinder (0.05f, 1.0f, 32);
   z->color = BLUE;
   z->rotation.x = 90.0f;
   z->scale.z = 1.5f;
-  z->model = LoadModelFromMesh (cylinder);
+  z->model = LoadModelFromMesh (z->mesh);
 
   element_add_child (el, x);
   element_add_child (el, y);
@@ -71,6 +72,7 @@ move_tool_free (struct element **move_tool)
   for (int i = 0; i < el->children.children; i++)
     {
       element_free (el->children.child[i]);
+
       free (el->children.child[i]);
       el->children.child[i] = NULL;
     }

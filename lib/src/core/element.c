@@ -134,9 +134,7 @@ element_free (struct element *el)
       element_free (el->children.child[i]);
     }
 
-  // This is returning a segmentation fault error, todo fix it?
-  /*UnloadMesh (el->mesh);
-    UnloadModel (el->model);*/
+  UnloadModel (el->model);
 
   vector_free (&el->children);
   el->children.child = NULL;
