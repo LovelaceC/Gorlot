@@ -194,7 +194,7 @@ topbar_free (struct nk_context **ctx, struct scene *scene)
 {
   for (int i = 0; i < free_elm.children; i++)
     {
-      // I don't call "element_free" as the scene is cleaned on exit
+      element_free (free_elm.child[i]);
       free (free_elm.child[i]);
     }
 
