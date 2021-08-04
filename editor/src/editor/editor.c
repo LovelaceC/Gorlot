@@ -42,6 +42,11 @@ editor_update (struct editor *editor, struct nk_context **ctx)
   UpdateCamera (editor->current_cam);
   UpdateNuklear (*ctx);
 
+  if (editor->selected_element && !editor->selected_element->selected)
+    {
+      editor->selected_element = NULL;
+    }
+
   // TODO: Move the editor select here?
 
   editorgui_draw (ctx, editor);

@@ -5,9 +5,10 @@
 - Use texture for rendering editor (and fix the mouse position for the ray)
 - Do the ToDo's all through the source code
 - More math functions (so I can mix cglm and raymath in a cleaner way?)
-- element_free function (unload model, mesh and frees children)
+- Move the tool select (in the viewport area, would be a great place, I think - or a sidebar)
+- Add elements by dragging an dropping? (like in Unreal)
 
-- Scene signals (on clean, on update, on draw, etcetera)
+- Scene signals (on clean, on update, on draw, on element added, etcetera)
 - Optimise the object selection in the editor?
 - Elements added to the scene appear near the camera field of view
 - Lights support
