@@ -94,12 +94,21 @@ editor_draw_tools (struct editor *editor)
 }
 
 void
-editor_free (struct editor *editor)
+editor_free (struct editor *editor, struct nk_context **ctx)
 {
+  // Clean the scene
   scene_free (&editor->editor_scene);
 
-  move_tool_free (editor->move_tool);
+  // Clean tools
+  move_tool_free (&editor->move_tool);
 
+  // Set some pointers to NULL
+  editor->current_tool = NULL;
   editor->current_cam = NULL;
   editor->current_scene = NULL;
+  editor->selected_element = NULL;
+
+  // Free the editorgui and Nuklear
+  editorgui_free (ctx, editor);
+  UnloadNuklear (*ctx);
 }

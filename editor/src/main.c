@@ -103,9 +103,8 @@ main ()
       EndDrawing ();
     }
 
-  editorgui_free (&ctx, &editor);
+  editor_free (&editor, &ctx);
 
-  UnloadNuklear (ctx);
   CloseWindow ();
 
   return 0;

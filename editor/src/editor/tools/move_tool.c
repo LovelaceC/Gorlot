@@ -63,17 +63,20 @@ move_tool_update (struct editor *editor, struct element *move_tool)
 }
 
 void
-move_tool_free (struct element *move_tool)
+move_tool_free (struct element **move_tool)
 {
-  for (int i = 0; i < move_tool->children.children; i++)
-    {
-      element_free (move_tool->children.child[i]);
+  struct element *el = *move_tool;
 
-      free (move_tool->children.child[i]);
-      move_tool->children.child[i] = NULL;
+  for (int i = 0; i < el->children.children; i++)
+    {
+      element_free (el->children.child[i]);
+      free (el->children.child[i]);
+      el->children.child[i] = NULL;
     }
 
-  element_free (move_tool);
-  free (move_tool);
-  move_tool = NULL;
+  vector_free (&el->children);
+  element_free (el);
+
+  free (el);
+  el = NULL;
 }

@@ -124,8 +124,19 @@ element_draw (struct element *el)
 void
 element_free (struct element *el)
 {
-  UnloadMesh (el->mesh);
-  UnloadModel (el->model);
+  if (!el)
+    {
+      return;
+    }
+
+  for (int i = 0; i < el->children.children; i++)
+    {
+      element_free (el->children.child[i]);
+    }
+
+  // This is returning a segmentation fault error, todo fix it?
+  /*UnloadMesh (el->mesh);
+    UnloadModel (el->model);*/
 
   vector_free (&el->children);
   el->children.child = NULL;

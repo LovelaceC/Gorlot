@@ -120,6 +120,10 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
         {
           nk_layout_row_dynamic (*ctx, 18, 1);
 
+          if (nk_menu_item_label (*ctx, "Container", NK_TEXT_ALIGN_LEFT))
+            {
+            }
+
           if (nk_menu_item_label (*ctx, "Cube", NK_TEXT_ALIGN_LEFT))
             {
               struct element *el = NULL;
@@ -190,6 +194,7 @@ topbar_free (struct nk_context **ctx, struct scene *scene)
 {
   for (int i = 0; i < free_elm.children; i++)
     {
+      // I don't call "element_free" as the scene is cleaned on exit
       free (free_elm.child[i]);
     }
 

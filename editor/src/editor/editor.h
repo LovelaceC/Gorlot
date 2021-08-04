@@ -45,6 +45,6 @@ struct editor editor_create ();
 void editor_update (struct editor *editor, struct nk_context **ctx);
 void editor_draw_wires (struct editor *editor);
 void editor_draw_tools (struct editor *editor);
-void editor_free (struct editor *editor);
+void editor_free (struct editor *editor, struct nk_context **ctx);
 
 #endif
