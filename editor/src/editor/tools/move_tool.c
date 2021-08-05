@@ -63,6 +63,35 @@ move_tool_update (struct editor *editor, struct element *move_tool)
       struct element *z = move_tool->children.child[2];
 
       // TODO: Update move tool scale based on the selected_element's scale
+
+      if (editor->selected_tool == TOOL_MOVE)
+        {
+          if (IsMouseButtonDown (MOUSE_BUTTON_LEFT))
+            {
+              for (int i = 0; i < move_tool->children.children; i++)
+                {
+                  struct element *axis = move_tool->children.child[i];
+
+                  editor->editor_ray
+                      = GetMouseRay (GetMousePosition (), editor->editor_cam);
+
+                  editor->editor_ray_collision = GetRayCollisionBox (
+                      editor->editor_ray,
+                      (BoundingBox){
+                          (Vector3){ axis->position.x - axis->scale.x / 2,
+                                     axis->position.y - axis->scale.y / 2,
+                                     axis->position.z - axis->scale.z / 2 },
+                          (Vector3){ axis->position.x + axis->scale.x / 2,
+                                     axis->position.y + axis->scale.y / 2,
+                                     axis->position.z + axis->scale.z / 2 } });
+
+                  if (editor->editor_ray_collision.hit)
+                    {
+                      axis->color = YELLOW;
+                    }
+                }
+            }
+        }
     }
 
   element_update (move_tool);

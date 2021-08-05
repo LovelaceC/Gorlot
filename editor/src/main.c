@@ -76,6 +76,7 @@ main ()
                     }
 
                   editor.selected_element = NULL;
+                  editor.editor_ray_collision.hit = 0;
                   el->selected = 0;
                 }
             }
