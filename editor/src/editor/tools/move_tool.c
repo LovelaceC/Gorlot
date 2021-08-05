@@ -58,6 +58,10 @@ move_tool_update (struct editor *editor, struct element *move_tool)
     {
       move_tool->position = editor->selected_element->position;
 
+      struct element *x = move_tool->children.child[0];
+      struct element *y = move_tool->children.child[1];
+      struct element *z = move_tool->children.child[2];
+
       // TODO: Update move tool scale based on the selected_element's scale
     }
 

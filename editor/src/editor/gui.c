@@ -1,29 +1,29 @@
 #include "gui.h"
 
-#include "gui/explorer.h"
-#include "gui/outliner.h"
-#include "gui/topbar.h"
+#include "gui/explorer/explorer.h"
+#include "gui/outliner/outliner.h"
+#include "gui/topbar/topbar.h"
 
 void
 editorgui_init (struct nk_context **ctx, struct editor *editor)
 {
-  topbar_init (ctx, editor->current_scene);
-  outliner_init (ctx, editor->current_scene, editor);
-  explorer_init (ctx, editor->current_scene);
+  topbar_init ();
+  outliner_init ();
+  explorer_init ();
 }
 
 void
 editorgui_draw (struct nk_context **ctx, struct editor *editor)
 {
-  topbar_draw (ctx, editor->current_scene, editor);
-  outliner_draw (ctx, editor->current_scene);
-  explorer_draw (ctx, editor->current_scene);
+  topbar_draw (ctx, editor);
+  outliner_draw (ctx, editor);
+  explorer_draw (ctx);
 }
 
 void
 editorgui_free (struct nk_context **ctx, struct editor *editor)
 {
-  topbar_free (ctx, editor->current_scene);
-  outliner_free (ctx, editor->current_scene);
-  explorer_free (ctx, editor->current_scene);
+  topbar_free ();
+  outliner_free ();
+  explorer_free ();
 }

@@ -1,9 +1,9 @@
 #include "outliner.h"
-
-struct editor *outliner_editor = NULL;
+#include "context.h"
 
 static void
-tree_draw_element (struct nk_context **ctx, struct element *el)
+tree_draw_element (struct nk_context **ctx, struct element *el,
+                   struct editor *editor)
 {
   struct nk_rect bounds;
   bounds = nk_widget_bounds (*ctx);
@@ -17,41 +17,24 @@ tree_draw_element (struct nk_context **ctx, struct element *el)
 
   if (el->selected)
     {
-      if (outliner_editor->selected_element
-          && outliner_editor->selected_element != el)
+      if (editor->selected_element && editor->selected_element != el)
         {
-          outliner_editor->selected_element->selected = 0;
+          editor->selected_element->selected = 0;
         }
 
-      outliner_editor->selected_element = el;
+      editor->selected_element = el;
     }
 
-  if (nk_contextual_begin (*ctx, 0, nk_vec2 (100, 300), bounds))
-    {
-      nk_layout_row_dynamic (*ctx, 15, 1);
-
-      // TODO: Make this useful
-      if (nk_contextual_item_label (*ctx, "Delete", NK_TEXT_CENTERED))
-        {
-          vector_delete_child (&outliner_editor->current_scene->elements, el);
-          UnloadModel (el->model);
-
-          outliner_editor->selected_element = NULL;
-        }
-
-      nk_contextual_end (*ctx);
-    }
+  outliner_ctx (editor, ctx, el, bounds);
 }
 
 void
-outliner_init (struct nk_context **ctx, struct scene *scene,
-               struct editor *editor)
+outliner_init ()
 {
-  outliner_editor = editor;
 }
 
 void
-outliner_draw (struct nk_context **ctx, struct scene *scene)
+outliner_draw (struct nk_context **ctx, struct editor *editor)
 {
   if (nk_begin (*ctx, "Outliner",
                 nk_rect (window_width - OUTLINER_WIDTH, TOPBAR_HEIGHT,
@@ -66,14 +49,16 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
           // TODO: Scene name
           if (nk_tree_push (*ctx, NK_TREE_NODE, "Scene", NK_MAXIMIZED))
             {
-              for (int i = 0; i < scene->elements.children; i++)
+              for (int i = 0; i < editor->current_scene->elements.children;
+                   i++)
                 {
-                  if (!scene->elements.child[i])
+                  if (!editor->current_scene->elements.child[i])
                     {
                       continue;
                     }
 
-                  tree_draw_element (ctx, scene->elements.child[i]);
+                  tree_draw_element (
+                      ctx, editor->current_scene->elements.child[i], editor);
                 }
 
               nk_tree_pop (*ctx);
@@ -83,11 +68,10 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
 
       const float ratio[] = { OUTLINER_WIDTH - 22, OUTLINER_HEIGHT - 300 };
 
-      // TODO: Selected object components
-      if (outliner_editor->selected_element)
+      if (editor->selected_element)
         {
           // TODO: Move this to another file?
-          struct element *selected_element = outliner_editor->selected_element;
+          struct element *selected_element = editor->selected_element;
 
           nk_layout_row_dynamic (*ctx, 25, 1);
           nk_label (*ctx, "Element", NK_TEXT_LEFT);
@@ -142,6 +126,6 @@ outliner_draw (struct nk_context **ctx, struct scene *scene)
 }
 
 void
-outliner_free (struct nk_context **ctx, struct scene *scene)
+outliner_free ()
 {
 }

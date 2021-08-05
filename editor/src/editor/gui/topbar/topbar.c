@@ -1,18 +1,15 @@
 #include "topbar.h"
 
-// TODO: Split this into files?
-
 static struct vector free_elm;
 
 void
-topbar_init (struct nk_context **ctx, struct scene *scene)
+topbar_init ()
 {
   free_elm = vector_create ();
 }
 
 void
-topbar_draw (struct nk_context **ctx, struct scene *scene,
-             struct editor *editor)
+topbar_draw (struct nk_context **ctx, struct editor *editor)
 {
   if (nk_begin (*ctx, "Menubar", nk_rect (0, 0, window_width, 30),
                 NK_WINDOW_BORDER))
@@ -80,7 +77,8 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
 
           if (nk_menu_item_label (*ctx, "Delete", NK_TEXT_LEFT))
             {
-              vector_delete_child (&scene->elements, editor->selected_element);
+              vector_delete_child (&editor->current_scene->elements,
+                                   editor->selected_element);
             }
 
           nk_menu_end (*ctx);
@@ -125,7 +123,7 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
               struct element *el = NULL;
               el = malloc (sizeof (struct element));
               *el = element_create ();
-              scene_add_element (scene, el);
+              scene_add_element (editor->current_scene, el);
 
               vector_add_child (&free_elm, el);
             }
@@ -135,7 +133,7 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
               struct element *el = NULL;
               el = malloc (sizeof (struct element));
               *el = element_create_primitive (PRIMITIVE_CUBE);
-              scene_add_element (scene, el);
+              scene_add_element (editor->current_scene, el);
 
               vector_add_child (&free_elm, el);
             }
@@ -145,7 +143,7 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
               struct element *el = NULL;
               el = malloc (sizeof (struct element));
               *el = element_create_primitive (PRIMITIVE_CYLINDER);
-              scene_add_element (scene, el);
+              scene_add_element (editor->current_scene, el);
 
               vector_add_child (&free_elm, el);
             }
@@ -155,7 +153,7 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
               struct element *el = NULL;
               el = malloc (sizeof (struct element));
               *el = element_create_primitive (PRIMITIVE_SPHERE);
-              scene_add_element (scene, el);
+              scene_add_element (editor->current_scene, el);
 
               vector_add_child (&free_elm, el);
             }
@@ -165,7 +163,7 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
               struct element *el = NULL;
               el = malloc (sizeof (struct element));
               *el = element_create_primitive (PRIMITIVE_TORUS);
-              scene_add_element (scene, el);
+              scene_add_element (editor->current_scene, el);
 
               vector_add_child (&free_elm, el);
             }
@@ -175,7 +173,7 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
               struct element *el = NULL;
               el = malloc (sizeof (struct element));
               *el = element_create_primitive (PRIMITIVE_KNOT);
-              scene_add_element (scene, el);
+              scene_add_element (editor->current_scene, el);
 
               vector_add_child (&free_elm, el);
             }
@@ -196,7 +194,7 @@ topbar_draw (struct nk_context **ctx, struct scene *scene,
 }
 
 void
-topbar_free (struct nk_context **ctx, struct scene *scene)
+topbar_free ()
 {
   for (int i = 0; i < free_elm.children; i++)
     {
