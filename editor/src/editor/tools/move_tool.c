@@ -70,6 +70,17 @@ move_tool_update (struct editor *editor, struct element *move_tool)
             {
               for (int i = 0; i < move_tool->children.children; i++)
                 {
+                  // TODO: Change this
+                  // Create a variable `editing_axis[x,y,z]`, depending on the
+                  // axis that was click, the value of the editing_axis[axis
+                  // clicked] will be set to true, when the mouse is released
+                  // that variable will be set back to zero, and while it's
+                  // true the mouse will be captured and the selected element
+                  // will translate depending on the variable that is set to
+                  // true.
+                  // Also, change the axis that is being edited colour to
+                  // yellow, and then turn back to its original colour.
+
                   struct element *axis = move_tool->children.child[i];
 
                   editor->editor_ray
