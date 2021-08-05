@@ -14,6 +14,10 @@
 int
 main ()
 {
+  // TODO: Be able to modify all these Flags manually in the editor, and they
+  // are stored in a file that can also be modified manually by the end user.
+  SetConfigFlags (FLAG_MSAA_4X_HINT);
+
   InitWindow (window_width, window_height, "Gorlot");
 
   struct editor editor = editor_create ();
@@ -21,8 +25,6 @@ main ()
   editor.current_scene = &editor.editor_scene;
 
   SetCameraMode (editor.editor_cam, CAMERA_FREE);
-
-  SetTargetFPS (60);
 
   struct nk_context *ctx = InitNuklear (10);
 
@@ -99,6 +101,7 @@ main ()
         EndMode3D ();
 
         DrawNuklear (ctx);
+        DrawFPS (0, TOPBAR_HEIGHT);
       }
       EndDrawing ();
     }

@@ -119,7 +119,7 @@ outliner_draw (struct nk_context **ctx, struct editor *editor)
           }
           nk_layout_row_dynamic (*ctx, 25, 1);
 
-          nk_checkbox_label (*ctx, "Visible", &selected_element->visible);
+          nk_checkbox_label (*ctx, "Invisible", &selected_element->visible);
         }
     }
   nk_end (*ctx);
