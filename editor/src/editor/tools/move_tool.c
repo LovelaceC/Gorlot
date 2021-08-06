@@ -86,15 +86,8 @@ move_tool_update (struct editor *editor, struct element *move_tool)
                   editor->editor_ray
                       = GetMouseRay (GetMousePosition (), editor->editor_cam);
 
-                  editor->editor_ray_collision = GetRayCollisionBox (
-                      editor->editor_ray,
-                      (BoundingBox){
-                          (Vector3){ axis->position.x - axis->scale.x / 2,
-                                     axis->position.y - axis->scale.y / 2,
-                                     axis->position.z - axis->scale.z / 2 },
-                          (Vector3){ axis->position.x + axis->scale.x / 2,
-                                     axis->position.y + axis->scale.y / 2,
-                                     axis->position.z + axis->scale.z / 2 } });
+                  editor->editor_ray_collision = GetRayCollisionMesh (
+                      editor->editor_ray, axis->mesh, axis->model.transform);
 
                   if (editor->editor_ray_collision.hit)
                     {
