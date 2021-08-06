@@ -2,6 +2,44 @@
 
 #include "../editor.h"
 
+static _Bool
+axis_clicked (struct element *axis, struct editor *editor)
+{
+  // This function checks the axis (and its children) if they were clicked or
+  // not.
+  _Bool clicked = 0;
+
+  editor->editor_ray = GetMouseRay (GetMousePosition (), editor->editor_cam);
+
+  editor->editor_ray_collision = GetRayCollisionBox (
+      editor->editor_ray,
+      (BoundingBox){ (Vector3){ axis->position.x - axis->scale.x / 2,
+                                axis->position.y - axis->scale.y / 2,
+                                axis->position.z - axis->scale.z / 2 },
+                     (Vector3){ axis->position.x + axis->scale.x / 2,
+                                axis->position.y + axis->scale.y / 2,
+                                axis->position.z + axis->scale.z / 2 } });
+
+  clicked = editor->editor_ray_collision.hit;
+
+  if (clicked)
+    {
+      return clicked;
+    }
+
+  for (int i = 0; i < axis->children.children; i++)
+    {
+      clicked = axis_clicked (axis->children.child[i], editor);
+
+      if (clicked)
+        {
+          break;
+        }
+    }
+
+  return clicked;
+}
+
 struct element *
 scale_tool ()
 {
@@ -123,20 +161,7 @@ scale_tool_update (struct editor *editor, struct element *scale_tool)
 
                   struct element *axis = scale_tool->children.child[i];
 
-                  editor->editor_ray
-                      = GetMouseRay (GetMousePosition (), editor->editor_cam);
-
-                  editor->editor_ray_collision = GetRayCollisionBox (
-                      editor->editor_ray,
-                      (BoundingBox){
-                          (Vector3){ axis->position.x - axis->scale.x / 2,
-                                     axis->position.y - axis->scale.y / 2,
-                                     axis->position.z - axis->scale.z / 2 },
-                          (Vector3){ axis->position.x + axis->scale.x / 2,
-                                     axis->position.y + axis->scale.y / 2,
-                                     axis->position.z + axis->scale.z / 2 } });
-
-                  if (editor->editor_ray_collision.hit)
+                  if (axis_clicked (axis, editor))
                     {
                       axis->color = YELLOW;
                     }
