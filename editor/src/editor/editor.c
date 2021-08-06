@@ -11,6 +11,7 @@ editor_create ()
   editor.current_tool = NULL;
 
   editor.move_tool = move_tool ();
+  editor.scale_tool = scale_tool ();
   // TODO: The other tools
 
   editor.wires = element_create_primitive (PRIMITIVE_CUBE);
@@ -54,6 +55,7 @@ editor_update (struct editor *editor, struct nk_context **ctx)
 
   // TODO: Update all the other tools here :3
   move_tool_update (editor, editor->move_tool);
+  scale_tool_update (editor, editor->scale_tool);
 }
 
 void
@@ -83,9 +85,10 @@ editor_draw_tools (struct editor *editor)
         case TOOL_MOVE:
           element_draw (editor->move_tool);
           break;
-        case TOOL_ROTATE:
-          break;
         case TOOL_SCALE:
+          element_draw (editor->scale_tool);
+          break;
+        case TOOL_ROTATE:
           break;
         default:
           break;
@@ -101,6 +104,7 @@ editor_free (struct editor *editor, struct nk_context **ctx)
 
   // Clean tools
   move_tool_free (&editor->move_tool);
+  scale_tool_free (&editor->scale_tool);
 
   // Set some pointers to NULL
   editor->current_tool = NULL;

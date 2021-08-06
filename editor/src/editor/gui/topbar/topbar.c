@@ -100,14 +100,14 @@ topbar_draw (struct nk_context **ctx, struct editor *editor)
               editor->selected_tool = TOOL_MOVE;
             }
 
-          if (nk_menu_item_label (*ctx, "Rotate", NK_TEXT_ALIGN_LEFT))
-            {
-              editor->selected_tool = TOOL_ROTATE;
-            }
-
           if (nk_menu_item_label (*ctx, "Scale", NK_TEXT_ALIGN_LEFT))
             {
               editor->selected_tool = TOOL_SCALE;
+            }
+
+          if (nk_menu_item_label (*ctx, "Rotate", NK_TEXT_ALIGN_LEFT))
+            {
+              editor->selected_tool = TOOL_ROTATE;
             }
 
           nk_menu_end (*ctx);

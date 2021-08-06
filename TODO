@@ -7,6 +7,7 @@
 - More math functions (so I can mix cglm and raymath in a cleaner way?)
 - Move the tool select (in the viewport area, would be a great place, I think - or a sidebar)
 - Add elements by dragging an dropping? (like in Unreal)
+- Short tools size (that's why when clicking the center of an element in the scene, they all get selected - as they all are in the center)
 
 - Scene signals (on clean, on update, on draw, on element added, etcetera)
 - Optimise the object selection in the editor?

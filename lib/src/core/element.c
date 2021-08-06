@@ -1,6 +1,30 @@
 #include <gorlot.h>
 
-#include <raymath.h>
+#include <raylib.h>
+
+// This function will add all an element parents position, to get a position
+// relative to them all.
+static Vector3
+element_get_final_position (struct element *element)
+{
+  struct Vector3 vec = element->position;
+
+  if (!element->parent)
+    {
+      goto out;
+    }
+
+  struct element *cur_el = element;
+
+  while (cur_el)
+    {
+      vec = vector_vector3_add_vector3 (element->position, cur_el->position);
+      cur_el = cur_el->parent;
+    }
+
+out:
+  return vec;
+}
 
 struct element
 element_create ()
@@ -113,8 +137,7 @@ element_draw (struct element *el)
       // Inherit the parent's position
       if (el->parent)
         {
-          position = vector_vector3_add_vector3 (el->position,
-                                                 el->parent->position);
+          position = element_get_final_position (el);
         }
 
       DrawModel (el->model, position, 1.0f, el->color);
