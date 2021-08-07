@@ -30,8 +30,6 @@ struct editor
   struct element *rotate_tool;
   struct element *scale_tool;
 
-  struct element wires;
-
   Camera3D editor_cam;
 
   Camera3D *current_cam;

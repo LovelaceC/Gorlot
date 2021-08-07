@@ -14,11 +14,6 @@ editor_create ()
   editor.scale_tool = scale_tool ();
   // TODO: The other tools
 
-  editor.wires = element_create_primitive (PRIMITIVE_CUBE);
-  editor.wires.position = (Vector3){ 0.0f, 1000000.f, 0.0f };
-  editor.wires.visible = 0;
-  editor.wires.color = Fade (LIME, 0.3f);
-
   editor.editor_cam = (Camera3D){ 0 };
   editor.editor_cam.position = (Vector3){ 10.0f, 10.0f, 10.0f };
   editor.editor_cam.target = (Vector3){ 0.0f, 0.0f, 0.0f };
@@ -63,14 +58,9 @@ editor_draw_wires (struct editor *editor)
 {
   if (editor->selected_element)
     {
-      editor->wires.position = editor->selected_element->position;
-      editor->wires.scale
-          = (Vector3){ editor->selected_element->scale.x + 0.2f,
-                       editor->selected_element->scale.y + 0.2f,
-                       editor->selected_element->scale.z + 0.2f };
-      editor->wires.visible = 1;
-      element_update (&editor->wires);
-      element_draw (&editor->wires);
+      Vector3 scale = editor->selected_element->scale;
+      DrawCubeWires (editor->selected_element->position, scale.x, scale.y,
+                     scale.z, YELLOW);
     }
 }
 
