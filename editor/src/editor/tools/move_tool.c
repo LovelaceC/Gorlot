@@ -2,6 +2,51 @@
 
 #include "../editor.h"
 
+static _Bool editing_axis[3] = { 0 };
+
+static _Bool
+axis_clicked (struct element *axis, struct editor *editor)
+{
+  // This function checks the axis (and its children) if they were clicked or
+  // not.
+  _Bool clicked = 0;
+
+  Vector3 position = axis->position;
+  position = element_get_final_position (axis);
+
+  editor->editor_ray = GetMouseRay (GetMousePosition (), editor->editor_cam);
+
+  // TODO: Add the values of the size of the mesh (as the edges of the axis are
+  // not detected when clicked)
+  editor->editor_ray_collision = GetRayCollisionBox (
+      editor->editor_ray,
+      (BoundingBox){ (Vector3){ position.x - axis->scale.x / 2,
+                                position.y - axis->scale.y / 2,
+                                position.z - axis->scale.z / 2 },
+                     (Vector3){ position.x + axis->scale.x / 2,
+                                position.y + axis->scale.y / 2,
+                                position.z + axis->scale.z / 2 } });
+
+  clicked = editor->editor_ray_collision.hit;
+
+  if (clicked)
+    {
+      return clicked;
+    }
+
+  for (int i = 0; i < axis->children.children; i++)
+    {
+      clicked = axis_clicked (axis->children.child[i], editor);
+
+      if (clicked)
+        {
+          break;
+        }
+    }
+
+  return clicked;
+}
+
 struct element *
 move_tool ()
 {
@@ -70,6 +115,8 @@ move_tool_update (struct editor *editor, struct element *move_tool)
             {
               for (int i = 0; i < move_tool->children.children; i++)
                 {
+                  struct element *axis = move_tool->children.child[i];
+
                   // TODO: Change this
                   // Create a variable `editing_axis[x,y,z]`, depending on the
                   // axis that was click, the value of the editing_axis[axis
@@ -81,19 +128,28 @@ move_tool_update (struct editor *editor, struct element *move_tool)
                   // Also, change the axis that is being edited colour to
                   // yellow, and then turn back to its original colour.
 
-                  struct element *axis = move_tool->children.child[i];
-
-                  editor->editor_ray
-                      = GetMouseRay (GetMousePosition (), editor->editor_cam);
-
-                  editor->editor_ray_collision = GetRayCollisionMesh (
-                      editor->editor_ray, axis->mesh, axis->model.transform);
-
-                  if (editor->editor_ray_collision.hit)
+                  if (axis_clicked (axis, editor))
                     {
-                      axis->color = YELLOW;
+                      editing_axis[i] = 1;
                     }
                 }
+            }
+
+          if (editing_axis[0])
+            {
+              // Move in the X axis
+              editor->selected_element->position.x += 0.02;
+              editing_axis[0] = 0;
+            }
+          else if (editing_axis[1])
+            {
+              editor->selected_element->position.y += 0.02;
+              editing_axis[1] = 0;
+            }
+          else if (editing_axis[2])
+            {
+              editor->selected_element->position.z += 0.02;
+              editing_axis[2] = 0;
             }
         }
     }

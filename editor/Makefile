@@ -7,7 +7,7 @@ FILES=build/main.o build/editor/gui.o build/editor/gui/topbar/topbar.o \
 	build/editor/gui/outliner/outliner.o build/editor/editor.o \
 	build/utils/input.o build/editor/gui/explorer/explorer.o \
 	build/editor/tools/move_tool.o build/editor/gui/outliner/context.o \
-	build/editor/tools/scale_tool.o
+	build/editor/tools/scale_tool.o build/editor/tools/rotate_tool.o
 OUT=bin/editor.o
 
 all: $(FILES)
@@ -51,6 +51,10 @@ build/editor/gui/outliner/context.o: src/editor/gui/outliner/context.c
 	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
 
 build/editor/tools/scale_tool.o: src/editor/tools/scale_tool.c
+	@echo -e "CC\t\t"$<
+	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
+
+build/editor/tools/rotate_tool.o: src/editor/tools/rotate_tool.c
 	@echo -e "CC\t\t"$<
 	@$(CC) $(FLAGS) $< -c -o $@ $(LIBS)
 

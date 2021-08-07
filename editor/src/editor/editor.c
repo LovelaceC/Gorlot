@@ -12,7 +12,7 @@ editor_create ()
 
   editor.move_tool = move_tool ();
   editor.scale_tool = scale_tool ();
-  // TODO: The other tools
+  editor.rotate_tool = rotate_tool ();
 
   editor.editor_cam = (Camera3D){ 0 };
   editor.editor_cam.position = (Vector3){ 10.0f, 10.0f, 10.0f };
@@ -48,9 +48,10 @@ editor_update (struct editor *editor, struct nk_context **ctx)
   editorgui_draw (ctx, editor);
   scene_update (editor->current_scene);
 
-  // TODO: Update all the other tools here :3
+  // Update tools
   move_tool_update (editor, editor->move_tool);
   scale_tool_update (editor, editor->scale_tool);
+  rotate_tool_update (editor, editor->rotate_tool);
 }
 
 void
@@ -79,6 +80,7 @@ editor_draw_tools (struct editor *editor)
           element_draw (editor->scale_tool);
           break;
         case TOOL_ROTATE:
+          element_draw (editor->rotate_tool);
           break;
         default:
           break;
@@ -95,6 +97,11 @@ editor_free (struct editor *editor, struct nk_context **ctx)
   // Clean tools
   move_tool_free (&editor->move_tool);
   scale_tool_free (&editor->scale_tool);
+  rotate_tool_free (&editor->rotate_tool);
+
+  editor->move_tool = NULL;
+  editor->scale_tool = NULL;
+  editor->rotate_tool = NULL;
 
   // Set some pointers to NULL
   editor->current_tool = NULL;

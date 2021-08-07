@@ -62,6 +62,7 @@ void element_add_child (struct element *parent, struct element *child);
 void element_update (struct element *el);
 void element_draw (struct element *el);
 void element_free (struct element *el);
+Vector3 element_get_final_position (struct element *element);
 
 // core/scene.h
 struct scene

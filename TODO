@@ -39,7 +39,6 @@
 - When rotating and moving the camera in the editor capture the mouse
 - Stop using constants in `editor/gui' create constants for sizes and that stuff
 - Gui increases its size when resizing
-- Element children
 - Write the free camera mode myself
 - If the mouse is on a nuklear window, don't let the camera move
 - Isn't the GUI code so messy? Should I rewrite it?

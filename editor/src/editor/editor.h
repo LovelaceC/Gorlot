@@ -8,6 +8,7 @@
 #include "gui.h"
 
 #include "tools/move_tool.h"
+#include "tools/rotate_tool.h"
 #include "tools/scale_tool.h"
 
 enum tools
