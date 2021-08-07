@@ -51,21 +51,15 @@ main ()
                       = (struct element *)
                             editor.current_scene->elements.child[i];
 
-                  Vector3 pos = el->position;
-                  Vector3 scale = el->scale;
-
-                  editor.editor_ray_collision = GetRayCollisionBox (
-                      editor.editor_ray,
-                      (BoundingBox){
-                          (Vector3){ pos.x - scale.x / 2, pos.y - scale.y / 2,
-                                     pos.z - scale.z / 2 },
-                          (Vector3){ pos.x + scale.x / 2, pos.y + scale.y / 2,
-                                     pos.z + scale.z / 2 } });
+                  editor.editor_ray_collision
+                      = GetRayCollisionModel (editor.editor_ray, el->model);
 
                   if (editor.editor_ray_collision.hit)
                     {
                       if (editor.selected_element)
                         {
+                          // If there's a selected element, deselect that
+                          // element and set the current element
                           editor.selected_element->selected = 0;
                           editor.selected_element = NULL;
                         }
@@ -75,6 +69,7 @@ main ()
                       break; // Leave the for loop
                     }
 
+                  // If no element was clicked, unselect th selected element
                   editor.selected_element = NULL;
                   editor.editor_ray_collision.hit = 0;
                   el->selected = 0;

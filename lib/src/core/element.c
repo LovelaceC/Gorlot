@@ -78,15 +78,18 @@ element_update (struct element *el)
   rotation.z *= DEG2RAD;
 
   Vector3 scale = el->scale;
+  Vector3 position = el->position;
 
   if (el->parent)
     {
+      position = element_get_final_position (el);
       scale = vector_vector3_add_vector3 (el->scale, el->parent->scale);
     }
 
   mat4 mat = GLM_MAT4_IDENTITY_INIT;
   matrix_mat4_rotate_from_vec3 (mat, vector_vector3_to_vec3 (rotation));
   matrix_mat4_scale_from_vec3 (mat, vector_vector3_to_vec3 (scale));
+  matrix_mat4_translate (mat, vector_vector3_to_vec3 (position));
 
   el->matrix = matrix_mat4_to_matrix (mat);
 
@@ -108,14 +111,7 @@ element_draw (struct element *el)
 
   if (el->visible)
     {
-      Vector3 position = el->position;
-
-      if (el->parent)
-        {
-          position = element_get_final_position (el);
-        }
-
-      DrawModel (el->model, position, 1.0f, el->color);
+      DrawModel (el->model, (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, el->color);
     }
 }
 

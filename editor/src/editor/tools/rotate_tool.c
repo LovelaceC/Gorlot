@@ -14,16 +14,8 @@ axis_clicked (struct element *axis, struct editor *editor)
 
   editor->editor_ray = GetMouseRay (GetMousePosition (), editor->editor_cam);
 
-  // TODO: Detect when a torus is clicked (with `position' added to its
-  // position)
-  /*editor->editor_ray_collision = GetRayCollisionBox (
-      editor->editor_ray,
-      (BoundingBox){ (Vector3){ position.x - axis->scale.x / 2,
-                                position.y - axis->scale.y / 2,
-                                position.z - axis->scale.z / 2 },
-                     (Vector3){ position.x + axis->scale.x / 2,
-                                position.y + axis->scale.y / 2,
-                                position.z + axis->scale.z / 2 } });*/
+  editor->editor_ray_collision
+      = GetRayCollisionModel (editor->editor_ray, axis->model);
 
   clicked = editor->editor_ray_collision.hit;
 
@@ -52,7 +44,7 @@ rotate_tool ()
   struct element *el = NULL;
   el = malloc (sizeof (struct element));
   *el = element_create ();
-  el->scale = (Vector3){ 0.1f, 0.1f, 0.1f };
+  el->scale = (Vector3){ 0.5f, 0.5f, 0.5f };
 
   // X Axis
   struct element *x = NULL;

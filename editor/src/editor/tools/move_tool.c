@@ -16,16 +16,8 @@ axis_clicked (struct element *axis, struct editor *editor)
 
   editor->editor_ray = GetMouseRay (GetMousePosition (), editor->editor_cam);
 
-  // TODO: Add the values of the size of the mesh (as the edges of the axis are
-  // not detected when clicked)
-  editor->editor_ray_collision = GetRayCollisionBox (
-      editor->editor_ray,
-      (BoundingBox){ (Vector3){ position.x - axis->scale.x / 2,
-                                position.y - axis->scale.y / 2,
-                                position.z - axis->scale.z / 2 },
-                     (Vector3){ position.x + axis->scale.x / 2,
-                                position.y + axis->scale.y / 2,
-                                position.z + axis->scale.z / 2 } });
+  editor->editor_ray_collision
+      = GetRayCollisionModel (editor->editor_ray, axis->model);
 
   clicked = editor->editor_ray_collision.hit;
 

@@ -78,6 +78,7 @@ void scene_free (struct scene *scene);
 // math/matrix.h
 void matrix_mat4_scale_from_vec3 (mat4 mat, vec3 vec);
 void matrix_mat4_rotate_from_vec3 (mat4 mat, vec3 vec);
+void matrix_mat4_translate (mat4 mat, vec3 vec);
 Matrix matrix_mat4_to_matrix (mat4 mat);
 
 // math/vector.h

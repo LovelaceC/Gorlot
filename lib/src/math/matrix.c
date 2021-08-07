@@ -14,6 +14,14 @@ matrix_mat4_rotate_from_vec3 (mat4 mat, vec3 vec)
   glm_rotate_z (mat, vec[2], mat);
 }
 
+void
+matrix_mat4_translate (mat4 mat, vec3 vec)
+{
+  mat[0][3] = vec[0];
+  mat[1][3] = vec[1];
+  mat[2][3] = vec[2];
+}
+
 Matrix
 matrix_mat4_to_matrix (mat4 mat)
 {
