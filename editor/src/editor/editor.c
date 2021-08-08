@@ -15,7 +15,7 @@ editor_create ()
   editor.rotate_tool = rotate_tool ();
 
   editor.editor_cam = (Camera3D){ 0 };
-  editor.editor_cam.position = (Vector3){ 10.0f, 10.0f, -10.0f };
+  editor.editor_cam.position = (Vector3){ 10.0f, 10.0f, 10.0f };
   editor.editor_cam.target = (Vector3){ 0.0f, 0.0f, 0.0f };
   editor.editor_cam.up = (Vector3){ 0.0f, 1.0f, 0.0 };
   editor.editor_cam.fovy = 45.0f;

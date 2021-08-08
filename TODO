@@ -43,5 +43,6 @@
 - Geometry editor
 - Keyboard shortcuts
 - Post processing
+- When working in the Asset explorer, all meshes will be stored there, and the meshes won't be free'd with the elements but with the asset explorer
 
 - Sort this ToDo list (it is so deorganised)
