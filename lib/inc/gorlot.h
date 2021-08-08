@@ -3,7 +3,9 @@
 
 #include <cglm/cglm.h>
 
+#define SUPPORT_CAMERA_SYSTEM
 #include <raylib.h>
+
 #include <raymath.h>
 
 #include <stddef.h>
@@ -74,6 +76,19 @@ struct scene scene_create ();
 void scene_add_element (struct scene *scene, struct element *element);
 void scene_update (struct scene *scene);
 void scene_free (struct scene *scene);
+
+// core/camera.h
+struct camera
+{
+  Camera3D cam;
+
+  Vector3 position;
+  Vector3 rotation;
+};
+
+struct camera camera_create ();
+void camera_set_position (struct camera *camera, Vector3 position);
+void camera_update (struct camera *camera);
 
 // math/matrix.h
 void matrix_mat4_scale_from_vec3 (mat4 mat, vec3 vec);

@@ -14,12 +14,12 @@ editor_create ()
   editor.scale_tool = scale_tool ();
   editor.rotate_tool = rotate_tool ();
 
-  editor.editor_cam = (Camera3D){ 0 };
-  editor.editor_cam.position = (Vector3){ 10.0f, 10.0f, 10.0f };
-  editor.editor_cam.target = (Vector3){ 0.0f, 0.0f, 0.0f };
-  editor.editor_cam.up = (Vector3){ 0.0f, 1.0f, 0.0 };
-  editor.editor_cam.fovy = 45.0f;
-  editor.editor_cam.projection = CAMERA_PERSPECTIVE;
+  editor.editor_cam = camera_create ();
+  camera_set_position (&editor.editor_cam, (Vector3){
+                                               10.0f,
+                                               10.0f,
+                                               10.0f,
+                                           });
 
   editor.editor_ray = (Ray){ 0 };
   editor.editor_ray_collision = (RayCollision){ 0 };
@@ -35,7 +35,9 @@ editor_create ()
 void
 editor_update (struct editor *editor, struct nk_context **ctx)
 {
-  UpdateCamera (editor->current_cam);
+  camera_update (editor->current_cam);
+
+  // UpdateCamera (&editor->current_cam->cam);
   UpdateNuklear (*ctx);
 
   if (editor->selected_element && !editor->selected_element->selected)

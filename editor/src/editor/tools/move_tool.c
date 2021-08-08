@@ -33,7 +33,8 @@ axis_selected (struct element *axis, struct editor *editor)
   Vector3 position = axis->position;
   position = element_get_final_position (axis);
 
-  editor->editor_ray = GetMouseRay (GetMousePosition (), editor->editor_cam);
+  editor->editor_ray
+      = GetMouseRay (GetMousePosition (), editor->editor_cam.cam);
 
   editor->editor_ray_collision
       = GetRayCollisionModel (editor->editor_ray, axis->model);
@@ -224,19 +225,20 @@ move_tool_update (struct editor *editor, struct element *move_tool)
 
           if (editing_axis[0])
             {
-              // TODO: Move X
               Vector2 mouse_delta = GetMouseDelta ();
               float speed = 0.05f;
 
               editor->selected_element->position.x
-                  += mouse_delta.x * speed / 1.0f;
+                  -= mouse_delta.y * speed
+                     * sin (editor->current_cam->rotation.x) / 1.0f;
+
               editor->selected_element->position.x
-                  += mouse_delta.y * speed / 1.0f;
+                  -= mouse_delta.x * speed
+                     * cos (editor->current_cam->rotation.x) / 1.0f;
             }
 
           if (editing_axis[1])
             {
-              // TODO: Move Y
               Vector2 mouse_delta = GetMouseDelta ();
               float speed = 0.05f;
 
@@ -250,9 +252,11 @@ move_tool_update (struct editor *editor, struct element *move_tool)
               float speed = 0.05f;
 
               editor->selected_element->position.z
-                  -= mouse_delta.y * speed / 1.0f;
+                  -= mouse_delta.y * speed
+                     * sin (editor->current_cam->rotation.x * DEG2RAD) / 1.0f;
               editor->selected_element->position.z
-                  -= mouse_delta.x * speed / 1.0f;
+                  -= mouse_delta.x * speed
+                     * cos (editor->current_cam->rotation.x * DEG2RAD) / 1.0f;
             }
 
           if (IsMouseButtonReleased (MOUSE_BUTTON_LEFT))

@@ -24,7 +24,7 @@ main ()
   editor.current_cam = &editor.editor_cam;
   editor.current_scene = &editor.editor_scene;
 
-  SetCameraMode (editor.editor_cam, CAMERA_FREE);
+  SetCameraMode (editor.editor_cam.cam, CAMERA_FREE);
 
   struct nk_context *ctx = InitNuklear (10);
 
@@ -41,7 +41,7 @@ main ()
           if (editor_mouse_in_viewport (pos)
               && editor.selected_tool == TOOL_SELECT)
             {
-              editor.editor_ray = GetMouseRay (pos, editor.editor_cam);
+              editor.editor_ray = GetMouseRay (pos, editor.editor_cam.cam);
 
               // Check collision between ray and all scene objects
               for (int i = 0; i < editor.current_scene->elements.children; i++)
@@ -81,7 +81,7 @@ main ()
       {
         ClearBackground (BLACK);
 
-        BeginMode3D (*editor.current_cam);
+        BeginMode3D (editor.current_cam->cam);
         {
           for (int i = 0; i < editor.current_scene->elements.children; i++)
             {

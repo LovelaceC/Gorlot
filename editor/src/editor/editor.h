@@ -31,9 +31,9 @@ struct editor
   struct element *rotate_tool;
   struct element *scale_tool;
 
-  Camera3D editor_cam;
+  struct camera editor_cam;
 
-  Camera3D *current_cam;
+  struct camera *current_cam;
   struct scene *current_scene;
 
   Ray editor_ray;

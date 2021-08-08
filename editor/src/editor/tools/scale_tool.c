@@ -12,7 +12,8 @@ axis_clicked (struct element *axis, struct editor *editor)
   Vector3 position = axis->position;
   position = element_get_final_position (axis);
 
-  editor->editor_ray = GetMouseRay (GetMousePosition (), editor->editor_cam);
+  editor->editor_ray
+      = GetMouseRay (GetMousePosition (), editor->editor_cam.cam);
 
   editor->editor_ray_collision
       = GetRayCollisionModel (editor->editor_ray, axis->model);
