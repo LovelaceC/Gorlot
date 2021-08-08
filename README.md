@@ -22,3 +22,15 @@ might now be outdated, therefore, the best way to always see the latest version
 of Gorlot is by building from source.
 
 ![](media/scr1.png)
+
+## How to contribute?
+
+You can contribute with changes in the code and donations.
+
+If you want to contribute changes in the move, you can do so by forking
+[this repo](https://codeberg.org/Bassara/Gorlot) and creating pull requests. Or
+you can also send patches (only one file, please) to my
+[email address](mailto:hermadescgco@disroot.org).
+
+If you want to donate, you can find more information on how to do so in my
+[personal website](https://zeabanger.gq/donate)
