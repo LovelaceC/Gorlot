@@ -1,3 +1,4 @@
+- Create a Gorlot camera structure containing (position and rotation)
 - Change element name
 - Do the ToDo's all through the source code
 - More math functions (so I can mix cglm and raymath in a cleaner way?)
