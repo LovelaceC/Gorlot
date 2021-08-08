@@ -114,6 +114,8 @@ move_tool_update (struct editor *editor, struct element *move_tool)
         {
           // TODO: Delete elses (I don't like using them, I made this fast just
           // to test how I'd do it)
+          // TODO: Fix movement based on camera rotation (as sometimes it must
+          // be negative, whereas some others it must be positive(
 
           if (axis_selected (x, editor) && !is_editing_axis ())
             {
