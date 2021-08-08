@@ -83,14 +83,13 @@ main ()
 
         BeginMode3D (*editor.current_cam);
         {
-          editor_draw_tools (&editor);
-
           for (int i = 0; i < editor.current_scene->elements.children; i++)
             {
               element_draw (editor.current_scene->elements.child[i]);
             }
 
           editor_draw_wires (&editor);
+          editor_draw_tools (&editor);
 
           DrawGrid (1000, 1.0f);
         }

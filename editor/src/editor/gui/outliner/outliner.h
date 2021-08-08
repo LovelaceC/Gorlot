@@ -9,6 +9,8 @@
 
 #include "context.h"
 
+#include "components/transform.h"
+
 void outliner_init ();
 void outliner_draw (struct nk_context **ctx, struct editor *editor);
 void outliner_free ();

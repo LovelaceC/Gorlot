@@ -66,60 +66,12 @@ outliner_draw (struct nk_context **ctx, struct editor *editor)
           nk_group_end (*ctx);
         }
 
-      const float ratio[] = { OUTLINER_WIDTH - 22, OUTLINER_HEIGHT - 300 };
-
       if (editor->selected_element)
         {
-          // TODO: Move this to another file?
-          struct element *selected_element = editor->selected_element;
-
           nk_layout_row_dynamic (*ctx, 25, 1);
           nk_label (*ctx, "Element", NK_TEXT_LEFT);
 
-          nk_label (*ctx, "Position:", NK_TEXT_LEFT);
-          nk_layout_row_dynamic (*ctx, 25, 3);
-          {
-            nk_property_float (*ctx, "#x", -4294967296,
-                               &selected_element->position.x, 4294967296, 1.0f,
-                               0.2f);
-            nk_property_float (*ctx, "#y", -4294967296,
-                               &selected_element->position.y, 4294967296, 1.0f,
-                               0.2f);
-            nk_property_float (*ctx, "#z", -4294967296,
-                               &selected_element->position.z, 4294967296, 1.0f,
-                               0.2f);
-          }
-          nk_layout_row_dynamic (*ctx, 25, 1);
-
-          // TODO: Rotation
-          nk_label (*ctx, "Rotation:", NK_TEXT_LEFT);
-          nk_layout_row_dynamic (*ctx, 25, 3);
-          {
-            nk_property_float (*ctx, "#x", -360, &selected_element->rotation.x,
-                               360, 1.0f, 1.0f);
-            nk_property_float (*ctx, "#y", -360, &selected_element->rotation.y,
-                               360, 1.0f, 1.0f);
-            nk_property_float (*ctx, "#z", -360, &selected_element->rotation.z,
-                               360, 1.0f, 1.0f);
-          }
-          nk_layout_row_dynamic (*ctx, 25, 1);
-
-          nk_label (*ctx, "Scale:", NK_TEXT_LEFT);
-          nk_layout_row_dynamic (*ctx, 25, 3);
-          {
-            nk_property_float (*ctx, "#x", -4294967296,
-                               &selected_element->scale.x, 4294967296, 1.0f,
-                               0.2f);
-            nk_property_float (*ctx, "#y", -4294967296,
-                               &selected_element->scale.y, 4294967296, 1.0f,
-                               0.2f);
-            nk_property_float (*ctx, "#z", -4294967296,
-                               &selected_element->scale.z, 4294967296, 1.0f,
-                               0.2f);
-          }
-          nk_layout_row_dynamic (*ctx, 25, 1);
-
-          nk_checkbox_label (*ctx, "Invisible", &selected_element->visible);
+          outliner_draw_transform_component (editor, ctx);
         }
     }
   nk_end (*ctx);
