@@ -61,9 +61,8 @@ editor_draw_wires (struct editor *editor)
 {
   if (editor->selected_element)
     {
-      Vector3 scale = editor->selected_element->scale;
-      DrawCubeWires (editor->selected_element->position, scale.x, scale.y,
-                     scale.z, YELLOW);
+      DrawModelWires (editor->selected_element->model, (Vector3){ 0.0f }, 1.0f,
+                      YELLOW);
     }
 }
 

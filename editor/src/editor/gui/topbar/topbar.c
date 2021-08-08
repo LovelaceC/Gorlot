@@ -148,6 +148,16 @@ topbar_draw (struct nk_context **ctx, struct editor *editor)
               vector_add_child (&free_elm, el);
             }
 
+          if (nk_menu_item_label (*ctx, "Cone", NK_TEXT_ALIGN_LEFT))
+            {
+              struct element *el = NULL;
+              el = malloc (sizeof (struct element));
+              *el = element_create_primitive (PRIMITIVE_CONE);
+              scene_add_element (editor->current_scene, el);
+
+              vector_add_child (&free_elm, el);
+            }
+
           if (nk_menu_item_label (*ctx, "Plane", NK_TEXT_ALIGN_LEFT))
             {
               struct element *el = NULL;
@@ -186,11 +196,6 @@ topbar_draw (struct nk_context **ctx, struct editor *editor)
               scene_add_element (editor->current_scene, el);
 
               vector_add_child (&free_elm, el);
-            }
-
-          if (nk_menu_item_label (*ctx, "Cone", NK_TEXT_ALIGN_LEFT))
-            {
-              printf ("TODO: Add cone.\n");
             }
 
           nk_menu_end (*ctx);

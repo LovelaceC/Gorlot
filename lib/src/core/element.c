@@ -36,13 +36,16 @@ element_create_primitive (enum primitive_type type)
       el.mesh = GenMeshCube (1.0f, 1.0f, 1.0f);
       break;
     case PRIMITIVE_CYLINDER:
-      el.mesh = GenMeshCylinder (0.5f, 1.0f, 32);
+      el.mesh = GenMeshCylinder (1.0f, 1.0f, 32);
+      break;
+    case PRIMITIVE_CONE:
+      el.mesh = GenMeshCone (1.0f, 1.0f, 32);
       break;
     case PRIMITIVE_PLANE:
       el.mesh = GenMeshPlane (1.0f, 1.0f, 32, 32);
       break;
     case PRIMITIVE_SPHERE:
-      el.mesh = GenMeshSphere (0.5f, 32, 32);
+      el.mesh = GenMeshSphere (1.0f, 32, 32);
       break;
     case PRIMITIVE_TORUS:
       el.mesh = GenMeshTorus (0.5f, 1.0f, 32, 32);
@@ -72,6 +75,11 @@ element_add_child (struct element *parent, struct element *child)
 void
 element_update (struct element *el)
 {
+  if (!el)
+    {
+      return;
+    }
+
   Vector3 rotation = el->rotation;
   rotation.x *= DEG2RAD;
   rotation.y *= DEG2RAD;

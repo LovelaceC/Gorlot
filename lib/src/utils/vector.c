@@ -12,8 +12,7 @@ vector_create ()
 void
 vector_add_child (struct vector *vector, void *element)
 {
-  vector->child
-      = realloc (vector->child, sizeof (void *) * vector->children + 1);
+  vector->child = realloc (vector->child, sizeof (void *) * vector->children);
 
   if (!vector->child)
     {
