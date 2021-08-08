@@ -2,8 +2,29 @@
 
 #include "../editor.h"
 
+static _Bool editing_axis[3] = { 0 };
+
+static void
+axis_set_colour (struct element *axis, Color colour)
+{
+  // Change an element colour recursively
+  axis->color = colour;
+
+  for (int i = 0; i < axis->children.children; i++)
+    {
+      struct element *child = axis->children.child[i];
+      child->color = colour;
+    }
+
+  // Also, change it for the parent
+  if (axis->parent)
+    {
+      axis->parent->color = colour;
+    }
+}
+
 static _Bool
-axis_clicked (struct element *axis, struct editor *editor)
+axis_selected (struct element *axis, struct editor *editor)
 {
   // This function checks the axis (and its children) if they were clicked or
   // not.
@@ -27,7 +48,7 @@ axis_clicked (struct element *axis, struct editor *editor)
 
   for (int i = 0; i < axis->children.children; i++)
     {
-      clicked = axis_clicked (axis->children.child[i], editor);
+      clicked = axis_selected (axis->children.child[i], editor);
 
       if (clicked)
         {
@@ -36,6 +57,13 @@ axis_clicked (struct element *axis, struct editor *editor)
     }
 
   return clicked;
+}
+
+static _Bool
+is_editing_axis ()
+{
+  // Returns true if any value in editing_axis is not 0
+  return editing_axis[0] || editing_axis[1] || editing_axis[2];
 }
 
 struct element *
@@ -134,6 +162,8 @@ scale_tool_update (struct editor *editor, struct element *scale_tool)
     {
       scale_tool->position = editor->selected_element->position;
 
+      struct element *selected_axis = NULL;
+
       struct element *x = scale_tool->children.child[0];
       struct element *y = scale_tool->children.child[1];
       struct element *z = scale_tool->children.child[2];
@@ -142,17 +172,89 @@ scale_tool_update (struct editor *editor, struct element *scale_tool)
 
       if (editor->selected_tool == TOOL_SCALE)
         {
-          if (IsMouseButtonDown (MOUSE_BUTTON_LEFT))
-            {
-              for (int i = 0; i < scale_tool->children.children; i++)
-                {
-                  struct element *axis = scale_tool->children.child[i];
+          // TODO: Delete elses (I don't like using them, I made this fast just
+          // to test how I'd do it)
 
-                  if (axis_clicked (axis, editor))
-                    {
-                      axis->color = YELLOW;
-                    }
+          if ((axis_selected (x, editor) && !is_editing_axis ())
+              || editing_axis[0])
+            {
+              axis_set_colour (x, YELLOW);
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT) && !is_editing_axis ())
+                {
+                  editing_axis[0] = 1;
                 }
+            }
+          else
+            {
+              axis_set_colour (x, RED);
+            }
+
+          if ((axis_selected (y, editor) && !is_editing_axis ())
+              || editing_axis[1])
+            {
+              axis_set_colour (y, YELLOW);
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT) && !is_editing_axis ())
+                {
+                  editing_axis[1] = 1;
+                }
+            }
+          else
+            {
+              axis_set_colour (y, GREEN);
+            }
+
+          if ((axis_selected (z, editor) && !is_editing_axis ())
+              || editing_axis[2])
+            {
+              axis_set_colour (z, YELLOW);
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT) && !is_editing_axis ())
+                {
+                  editing_axis[2] = 1;
+                }
+            }
+          else
+            {
+              axis_set_colour (z, BLUE);
+            }
+
+          if (editing_axis[0])
+            {
+              Vector2 mouse_delta = GetMouseDelta ();
+              Vector3 rotation = editor->current_cam->rotation;
+
+              editor->selected_element->scale.x
+                  += (-mouse_delta.y * sin (rotation.x)
+                      - mouse_delta.x * cos (rotation.x))
+                     * 0.01;
+            }
+
+          if (editing_axis[1])
+            {
+              Vector2 mouse_delta = GetMouseDelta ();
+              Vector3 rotation = editor->current_cam->rotation;
+
+              editor->selected_element->scale.y += -mouse_delta.y * 0.01;
+            }
+
+          if (editing_axis[2])
+            {
+              Vector2 mouse_delta = GetMouseDelta ();
+              Vector3 rotation = editor->current_cam->rotation;
+
+              editor->selected_element->scale.z
+                  += (-mouse_delta.y * sin (rotation.x + 1.57)
+                      - mouse_delta.x * cos (rotation.x + 1.57))
+                     * 0.01;
+            }
+
+          if (IsMouseButtonReleased (MOUSE_BUTTON_LEFT))
+            {
+              editing_axis[0] = 0;
+              editing_axis[1] = 0;
+              editing_axis[2] = 0;
             }
         }
     }

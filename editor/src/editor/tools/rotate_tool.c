@@ -2,8 +2,29 @@
 
 #include "../editor.h"
 
+static _Bool editing_axis[3] = { 0 };
+
+static void
+axis_set_colour (struct element *axis, Color colour)
+{
+  // Change an element colour recursively
+  axis->color = colour;
+
+  for (int i = 0; i < axis->children.children; i++)
+    {
+      struct element *child = axis->children.child[i];
+      child->color = colour;
+    }
+
+  // Also, change it for the parent
+  if (axis->parent)
+    {
+      axis->parent->color = colour;
+    }
+}
+
 static _Bool
-axis_clicked (struct element *axis, struct editor *editor)
+axis_selected (struct element *axis, struct editor *editor)
 {
   // This function checks the axis (and its children) if they were clicked or
   // not.
@@ -27,7 +48,7 @@ axis_clicked (struct element *axis, struct editor *editor)
 
   for (int i = 0; i < axis->children.children; i++)
     {
-      clicked = axis_clicked (axis->children.child[i], editor);
+      clicked = axis_selected (axis->children.child[i], editor);
 
       if (clicked)
         {
@@ -36,6 +57,13 @@ axis_clicked (struct element *axis, struct editor *editor)
     }
 
   return clicked;
+}
+
+static _Bool
+is_editing_axis ()
+{
+  // Returns true if any value in editing_axis is not 0
+  return editing_axis[0] || editing_axis[1] || editing_axis[2];
 }
 
 struct element *
@@ -92,6 +120,8 @@ rotate_tool_update (struct editor *editor, struct element *rotate_tool)
     {
       rotate_tool->position = editor->selected_element->position;
 
+      struct element *selected_axis = NULL;
+
       struct element *x = rotate_tool->children.child[0];
       struct element *y = rotate_tool->children.child[1];
       struct element *z = rotate_tool->children.child[2];
@@ -100,28 +130,80 @@ rotate_tool_update (struct editor *editor, struct element *rotate_tool)
 
       if (editor->selected_tool == TOOL_ROTATE)
         {
-          if (IsMouseButtonDown (MOUSE_BUTTON_LEFT))
+          if ((axis_selected (x, editor) && !is_editing_axis ())
+              || editing_axis[0])
             {
-              for (int i = 0; i < rotate_tool->children.children; i++)
+              axis_set_colour (x, YELLOW);
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT) && !is_editing_axis ())
                 {
-                  // TODO: Change this
-                  // Create a variable `editing_axis[x,y,z]`, depending on the
-                  // axis that was click, the value of the editing_axis[axis
-                  // clicked] will be set to true, when the mouse is released
-                  // that variable will be set back to zero, and while it's
-                  // true the mouse will be captured and the selected element
-                  // will translate depending on the variable that is set to
-                  // true.
-                  // Also, change the axis that is being edited colour to
-                  // yellow, and then turn back to its original colour.
-
-                  struct element *axis = rotate_tool->children.child[i];
-
-                  if (axis_clicked (axis, editor))
-                    {
-                      axis->color = YELLOW;
-                    }
+                  editing_axis[0] = 1;
                 }
+            }
+          else
+            {
+              axis_set_colour (x, RED);
+            }
+
+          if ((axis_selected (y, editor) && !is_editing_axis ())
+              || editing_axis[1])
+            {
+              axis_set_colour (y, YELLOW);
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT) && !is_editing_axis ())
+                {
+                  editing_axis[1] = 1;
+                }
+            }
+          else
+            {
+              axis_set_colour (y, GREEN);
+            }
+
+          if ((axis_selected (z, editor) && !is_editing_axis ())
+              || editing_axis[2])
+            {
+              axis_set_colour (z, YELLOW);
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT) && !is_editing_axis ())
+                {
+                  editing_axis[2] = 1;
+                }
+            }
+          else
+            {
+              axis_set_colour (z, BLUE);
+            }
+
+          if (editing_axis[0])
+            {
+              Vector2 mouse_delta = GetMouseDelta ();
+              float speed = 0.3;
+              editor->selected_element->rotation.x
+                  += -(mouse_delta.y + mouse_delta.x) * speed;
+            }
+
+          if (editing_axis[1])
+            {
+              Vector2 mouse_delta = GetMouseDelta ();
+              float speed = 0.3;
+              editor->selected_element->rotation.y
+                  += -(mouse_delta.y + mouse_delta.x) * speed;
+            }
+
+          if (editing_axis[2])
+            {
+              Vector2 mouse_delta = GetMouseDelta ();
+              float speed = 0.3;
+              editor->selected_element->rotation.z
+                  += -(mouse_delta.y + mouse_delta.x) * speed;
+            }
+
+          if (IsMouseButtonReleased (MOUSE_BUTTON_LEFT))
+            {
+              editing_axis[0] = 0;
+              editing_axis[1] = 0;
+              editing_axis[2] = 0;
             }
         }
     }
