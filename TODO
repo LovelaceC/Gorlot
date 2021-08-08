@@ -1,11 +1,7 @@
-- Fix geometries
-- Fix outliner visible
-- Add primitive elements
 - Change element name
-- Use texture for rendering editor (and fix the mouse position for the ray)
 - Do the ToDo's all through the source code
 - More math functions (so I can mix cglm and raymath in a cleaner way?)
-- Move the tool select (in the viewport area, would be a great place, I think - or a sidebar)
+- Move the tool selection (in the viewport area, would be a great place, I think - or a sidebar)
 - Add elements by dragging an dropping? (like in Unreal)
 - Short tools size (that's why when clicking the center of an element in the scene, they all get selected - as they all are in the center)
 
@@ -13,6 +9,7 @@
 - Optimise the object selection in the editor?
 - Elements added to the scene appear near the camera field of view
 - Lights support
+- Shadows
 - Add tools (graphical, of course)
 - Add support for materials
 - Improve UI

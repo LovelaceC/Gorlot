@@ -148,6 +148,16 @@ topbar_draw (struct nk_context **ctx, struct editor *editor)
               vector_add_child (&free_elm, el);
             }
 
+          if (nk_menu_item_label (*ctx, "Plane", NK_TEXT_ALIGN_LEFT))
+            {
+              struct element *el = NULL;
+              el = malloc (sizeof (struct element));
+              *el = element_create_primitive (PRIMITIVE_PLANE);
+              scene_add_element (editor->current_scene, el);
+
+              vector_add_child (&free_elm, el);
+            }
+
           if (nk_menu_item_label (*ctx, "Sphere", NK_TEXT_ALIGN_LEFT))
             {
               struct element *el = NULL;

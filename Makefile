@@ -1,8 +1,8 @@
 all:
 	@echo "Building Gorlot"
-	@cd lib && make --no-print-directory
+	@cd lib && make --no-print-directory -j`nproc`
 	@echo "Building Editor"
-	@cd editor && make --no-print-directory
+	@cd editor && make --no-print-directory -j`nproc`
 
 clean:
 	@echo "Cleaning Library"

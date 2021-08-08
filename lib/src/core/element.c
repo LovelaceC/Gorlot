@@ -39,7 +39,7 @@ element_create_primitive (enum primitive_type type)
       el.mesh = GenMeshCylinder (0.5f, 1.0f, 32);
       break;
     case PRIMITIVE_PLANE:
-      // TODO: This
+      el.mesh = GenMeshPlane (1.0f, 1.0f, 32, 32);
       break;
     case PRIMITIVE_SPHERE:
       el.mesh = GenMeshSphere (0.5f, 32, 32);

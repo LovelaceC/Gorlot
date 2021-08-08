@@ -5,7 +5,7 @@
 static _Bool editing_axis[3] = { 0 };
 
 static _Bool
-axis_clicked (struct element *axis, struct editor *editor)
+axis_selected (struct element *axis, struct editor *editor)
 {
   // This function checks the axis (and its children) if they were clicked or
   // not.
@@ -28,7 +28,7 @@ axis_clicked (struct element *axis, struct editor *editor)
 
   for (int i = 0; i < axis->children.children; i++)
     {
-      clicked = axis_clicked (axis->children.child[i], editor);
+      clicked = axis_selected (axis->children.child[i], editor);
 
       if (clicked)
         {
@@ -37,6 +37,13 @@ axis_clicked (struct element *axis, struct editor *editor)
     }
 
   return clicked;
+}
+
+static _Bool
+is_editing_axis ()
+{
+  // Returns true if any value in editing_axis is not 0
+  return editing_axis[0] || editing_axis[1] || editing_axis[2];
 }
 
 struct element *
@@ -95,6 +102,8 @@ move_tool_update (struct editor *editor, struct element *move_tool)
     {
       move_tool->position = editor->selected_element->position;
 
+      struct element *selected_axis = NULL;
+
       struct element *x = move_tool->children.child[0];
       struct element *y = move_tool->children.child[1];
       struct element *z = move_tool->children.child[2];
@@ -103,44 +112,88 @@ move_tool_update (struct editor *editor, struct element *move_tool)
 
       if (editor->selected_tool == TOOL_MOVE)
         {
-          if (IsMouseButtonDown (MOUSE_BUTTON_LEFT))
+          // TODO: Delete elses (I don't like using them, I made this fast just
+          // to test how I'd do it)
+
+          if (axis_selected (x, editor) && !is_editing_axis ())
             {
-              for (int i = 0; i < move_tool->children.children; i++)
+              x->color = YELLOW;
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT))
                 {
-                  struct element *axis = move_tool->children.child[i];
-
-                  // TODO: Change this
-                  // Create a variable `editing_axis[x,y,z]`, depending on the
-                  // axis that was click, the value of the editing_axis[axis
-                  // clicked] will be set to true, when the mouse is released
-                  // that variable will be set back to zero, and while it's
-                  // true the mouse will be captured and the selected element
-                  // will translate depending on the variable that is set to
-                  // true.
-                  // Also, change the axis that is being edited colour to
-                  // yellow, and then turn back to its original colour.
-
-                  if (axis_clicked (axis, editor))
-                    {
-                      editing_axis[i] = 1;
-                    }
+                  editing_axis[0] = 1;
                 }
+            }
+          else
+            {
+              x->color = RED;
+            }
+
+          if (axis_selected (y, editor) && !is_editing_axis ())
+            {
+              y->color = YELLOW;
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT))
+                {
+                  editing_axis[1] = 1;
+                }
+            }
+          else
+            {
+              y->color = GREEN;
+            }
+
+          if (axis_selected (z, editor) && !is_editing_axis ())
+            {
+              z->color = YELLOW;
+
+              if (IsMouseButtonDown (MOUSE_BUTTON_LEFT))
+                {
+                  editing_axis[2] = 1;
+                }
+            }
+          else
+            {
+              z->color = BLUE;
             }
 
           if (editing_axis[0])
             {
-              // Move in the X axis
-              editor->selected_element->position.x += 0.02;
+              // TODO: Move X
+              Vector2 mouse_delta = GetMouseDelta ();
+              float speed = 0.05f;
+
+              editor->selected_element->position.x
+                  -= mouse_delta.x * speed / 1.0f;
+              editor->selected_element->position.x
+                  -= mouse_delta.y * speed / 1.0f;
+            }
+
+          if (editing_axis[1])
+            {
+              // TODO: Move Y
+              Vector2 mouse_delta = GetMouseDelta ();
+              float speed = 0.05f;
+
+              editor->selected_element->position.y
+                  -= mouse_delta.y * speed / 1.0f;
+            }
+
+          if (editing_axis[2])
+            {
+              Vector2 mouse_delta = GetMouseDelta ();
+              float speed = 0.05f;
+
+              editor->selected_element->position.z
+                  -= mouse_delta.y * speed / 1.0f;
+              editor->selected_element->position.z
+                  -= mouse_delta.x * speed / 1.0f;
+            }
+
+          if (IsMouseButtonReleased (MOUSE_BUTTON_LEFT))
+            {
               editing_axis[0] = 0;
-            }
-          else if (editing_axis[1])
-            {
-              editor->selected_element->position.y += 0.02;
               editing_axis[1] = 0;
-            }
-          else if (editing_axis[2])
-            {
-              editor->selected_element->position.z += 0.02;
               editing_axis[2] = 0;
             }
         }
