@@ -151,6 +151,7 @@ scale_tool ()
   z_cube->model = LoadModelFromMesh (z_cube->mesh);
 
   element_add_child (z, z_cube);
+  element_set_static (el, 0);
 
   return el;
 }

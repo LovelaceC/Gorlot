@@ -21,6 +21,7 @@ element_create ()
 
   el.selected = 0;
   el.visible = 1;
+  el.is_static = 0;
 
   return el;
 }
@@ -72,6 +73,12 @@ element_add_child (struct element *parent, struct element *child)
   child->parent = parent;
 }
 
+_Bool
+element_has_children (struct element *el)
+{
+  return el->children.children > 0;
+}
+
 void
 element_update (struct element *el)
 {
@@ -88,7 +95,7 @@ element_update (struct element *el)
   Vector3 scale = el->scale;
   Vector3 position = el->position;
 
-  if (el->parent)
+  if (el->parent && !el->is_static)
     {
       position = element_get_final_position (el);
       scale = vector_vector3_add_vector3 (el->scale, el->parent->scale);
@@ -136,12 +143,30 @@ element_free (struct element *el)
       element_free (el->children.child[i]);
     }
 
-  UnloadModel (el->model);
+  // TODO: This returns a SISGEV, fix it
+  // UnloadModel (el->model);
 
   vector_free (&el->children);
   el->children.child = NULL;
 
   el->parent = NULL;
+}
+
+void
+element_set_static (struct element *el, int is_static)
+{
+  el->is_static = is_static;
+
+  // Set it recursively
+  for (int i = 0; i < el->children.children; i++)
+    {
+      struct element *child = el->children.child[i];
+
+      if (element_has_children (child))
+        {
+          element_set_static (child, is_static);
+        }
+    }
 }
 
 // This function will add all an element parents position, to get a position
@@ -151,7 +176,7 @@ element_get_final_position (struct element *element)
 {
   struct Vector3 vec = element->position;
 
-  if (!element->parent)
+  if (!element->parent || element->is_static)
     {
       goto out;
     }

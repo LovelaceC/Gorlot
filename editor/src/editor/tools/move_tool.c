@@ -152,6 +152,7 @@ move_tool ()
   z_cone->model = LoadModelFromMesh (z_cone->mesh);
 
   element_add_child (z, z_cone);
+  element_set_static (el, 0);
 
   return el;
 }

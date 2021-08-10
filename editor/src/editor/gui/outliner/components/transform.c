@@ -57,7 +57,9 @@ outliner_draw_transform_component (struct editor *editor,
           nk_tree_pop (*ctx);
         }
 
+      nk_layout_row_dynamic (*ctx, 25, 1);
       nk_checkbox_label (*ctx, "Invisible", &selected_element->visible);
+      nk_checkbox_label (*ctx, "Inherits", &selected_element->is_static);
 
       nk_tree_pop (*ctx);
     }

@@ -109,6 +109,7 @@ rotate_tool ()
   z->model = LoadModelFromMesh (z->mesh);
 
   element_add_child (el, z);
+  element_set_static (el, 0);
 
   return el;
 }

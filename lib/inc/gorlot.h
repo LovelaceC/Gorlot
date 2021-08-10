@@ -46,6 +46,7 @@ struct element
   // Util info?
   int selected;
   int visible;
+  int is_static;
 };
 
 enum primitive_type
@@ -62,9 +63,11 @@ enum primitive_type
 struct element element_create ();
 struct element element_create_primitive (enum primitive_type type);
 void element_add_child (struct element *parent, struct element *child);
+_Bool element_has_children (struct element *el);
 void element_update (struct element *el);
 void element_draw (struct element *el);
 void element_free (struct element *el);
+void element_set_static (struct element *el, int is_static);
 Vector3 element_get_final_position (struct element *element);
 
 // core/scene.h
