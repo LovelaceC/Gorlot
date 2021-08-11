@@ -94,6 +94,20 @@ struct camera camera_create ();
 void camera_set_position (struct camera *camera, Vector3 position);
 void camera_update (struct camera *camera);
 
+// core/component.h
+struct component
+{
+  // Owner is the element that owns this component
+  void (*init) (struct element *owner);
+  void (*update) (struct element *owner);
+  void (*free) (struct element *owner, struct component *this);
+
+  int type; // For loading/saving projects (basically, set the init, update and
+            // free functions)
+  void *data; // Just in case some data is required.
+  struct element *owner;
+};
+
 // math/matrix.h
 void matrix_mat4_scale_from_vec3 (mat4 mat, vec3 vec);
 void matrix_mat4_rotate_from_vec3 (mat4 mat, vec3 vec);
